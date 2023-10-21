@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import Auth from './auth'
+import Auth from './components/auth'
 
 const page = () => {
   return (
