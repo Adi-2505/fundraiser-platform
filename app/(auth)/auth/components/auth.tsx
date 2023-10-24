@@ -4,7 +4,7 @@ import React from 'react'
 
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
+
 
 
 
@@ -31,7 +31,7 @@ import { Database } from '@/lib/database.types'
 
 const Auth = () => {
 
-  const router = useRouter()
+  
   const supabase = createClientComponentClient<Database>()
 
   
@@ -41,7 +41,7 @@ const Auth = () => {
       provider: 'google',
     })
     
-    router.refresh()
+   
   }
   
 

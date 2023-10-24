@@ -1,15 +1,25 @@
+
+
 import React from "react";
 import Link from "next/link";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import { Button } from "@/components/ui/button";
 
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import { PiCubeFocusDuotone } from "react-icons/pi";
+
+import { cookies } from "next/headers";
+
 const Navbar = async () => {
-  const supabase = createClientComponentClient();
-  // chech if session exists
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+
+
+  
+
+  const supabase = createServerComponentClient({cookies});
+
+  const {data : {session}} = await  supabase.auth.getSession()
+  
 
   return (
     <div>
