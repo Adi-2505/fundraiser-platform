@@ -1,10 +1,15 @@
 'use client'
 import React, {useEffect, useState} from 'react'
 
-import { User, createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Session, User, createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 
-const page = () => {
+
+
+
+
+
+const Profile = () => {
 
   const supabase = createClientComponentClient()
 
@@ -28,4 +33,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Profile

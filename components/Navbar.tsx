@@ -23,7 +23,7 @@ const Navbar = async () => {
 
   return (
     <div>
-      <div className="fixed top-0 w-full h-12 border-b-[1px] border-gray-500">
+      <div className="fixed w-full h-12 border-b-[1px] border-gray-500 bg-white z-50 top-0 overflow-hidden" >
         <div className="container  flex justify-between items-center h-full">
           <div className="text-xl font-bold flex items-center cursor-pointer">
             <div className="rounded-md bg-slate-400 p-1 mr-2">
