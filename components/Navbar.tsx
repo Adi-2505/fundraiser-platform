@@ -5,42 +5,39 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+
 
 import { PiCubeFocusDuotone } from "react-icons/pi";
 
-import { cookies } from "next/headers";
-
-const Navbar = async () => {
 
 
-  
 
-  const supabase = createServerComponentClient({cookies});
+const Navbar = () => {
 
-  const {data : {session}} = await  supabase.auth.getSession()
-  
+  const user = null
 
   return (
     <div>
       <div className="fixed w-full h-12 border-b-[1px] border-gray-500 bg-white z-50 top-0 overflow-hidden" >
         <div className="container  flex justify-between items-center h-full">
-          <div className="text-xl font-bold flex items-center cursor-pointer">
-            <div className="rounded-md bg-slate-400 p-1 mr-2">
-              <PiCubeFocusDuotone color="white" size="1.5rem" />
+          <Link href={'/'}>
+            <div className="text-xl font-bold flex items-center cursor-pointer">
+              <div className="rounded-md bg-slate-400 p-1 mr-2">
+                <PiCubeFocusDuotone color="white" size="1.5rem" />
+              </div>
+              <div>Fundraiser</div>
             </div>
-            <div>Fundraiser</div>
-          </div>
+          </Link>
           <div className="flex space-x-4 items-center">
             <div>
-              <Link href={"/"}>Home</Link>
+              <Link href={"/explore"}>Explore</Link>
             </div>
-            <div>
-              <Link href={"/dashboard"}>Dashboard</Link>
-            </div>
+            {user && <div>
+              <Link href={"/dashboard/analytics"}>Dashboard</Link>
+            </div>}
 
             {/* if session then profile else signin */}
-            {session ? (
+            {user ? (
               <div>
                 <Link href={"/profile"}>Profile</Link>
               </div>

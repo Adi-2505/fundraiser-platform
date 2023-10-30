@@ -1,12 +1,4 @@
-'use client'
-
 import React from 'react'
-
-
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-
-
-
 
 import { FcGoogle } from 'react-icons/fc'
 
@@ -24,26 +16,10 @@ import {
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 
-import { Database } from '@/lib/database.types'
-
 
 
 
 const Auth = () => {
-
-  
-  const supabase = createClientComponentClient<Database>()
-
-  
-
-  const handleSignIn = async () => {
-    supabase.auth.signInWithOAuth({
-      provider: 'google',
-    })
-    
-   
-  }
-  
 
   return (
 
@@ -60,7 +36,6 @@ const Auth = () => {
             </div>
             <div className='mb-5'>
               <Button className='w-full border-slate-300 hover:shadow-md shadow-sm' variant={'outline'}
-                onClick={handleSignIn}
               >
                 <FcGoogle size={25} />
 

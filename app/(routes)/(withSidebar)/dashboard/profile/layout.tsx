@@ -1,11 +1,13 @@
 import React from 'react'
 
-const layout = ({children}: {
-  children: React.ReactNode
 
-}) => {
+
+const layout = async ({children}: {children: React.ReactNode}) => {
+
+
   return (
-    <div >
+    <div>
+
       {children}
     </div>
   )
