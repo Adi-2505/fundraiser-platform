@@ -39,18 +39,17 @@ export async function getFundraisers() {
   try {
     const { data: fundraisers } = await supabase
       .from('fundraisers')
-      .select('*')
-      .single();
+      .select('*');
 
     const {data: user} =  await supabase
     .from('fundraisers')
     .select(`
-      full_name,
+      id,
       users (
-        user
+        full_name
       )
     `)
-    return fundraisers;
+    return {fundraisers, user};
   } catch (error) {
     console.error('Error:', error);
     return null;

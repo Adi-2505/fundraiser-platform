@@ -10,17 +10,18 @@ import {
 import { Progress } from "@/components/ui/progress"
 
 
+import { type FundraisersRow, type usersRow } from '@/types/database.types'
 
 interface CardItemProps {
-  title: string
-  description: string
-  content: string
-  userEmail: string
+  title: FundraisersRow['title'] | undefined
+  description: FundraisersRow['title'] | undefined
+  content: FundraisersRow['title'] | undefined
+  username: usersRow['full_name'] | undefined
 
 }
 
 
-const CardItem = ({ title, description, content, userEmail }: CardItemProps) => {
+const CardItem = ({ title, description, content, username }: CardItemProps) => {
 
   return (
     <div className='hover:cursor-pointer shadow-md hover:shadow-lg '>
@@ -30,7 +31,7 @@ const CardItem = ({ title, description, content, userEmail }: CardItemProps) => 
           <CardHeader>
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
-            <CardDescription>{`By ${userEmail}`}</CardDescription>
+            <CardDescription>{`By ${username}`}</CardDescription>
           </CardHeader>
           <CardContent>
             <p>{content}</p>

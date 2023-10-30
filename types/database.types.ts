@@ -26,7 +26,7 @@ export interface Database {
           id?: string
           title: string
           updated_at?: string
-          user: string
+          user?: string
         }
         Update: {
           content?: string
@@ -86,3 +86,6 @@ export interface Database {
     }
   }
 }
+
+export type FundraisersRow = Database["public"]["Tables"]["fundraisers"]["Row"]
+export type usersRow = Database["public"]["Tables"]["users"]["Row"]

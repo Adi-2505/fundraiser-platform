@@ -54,6 +54,7 @@ const CreatePage = () => {
         description: value.Description,
         content: value.Content,
       }]);
+
       console.log(data);
       // console.log(data);
     } catch (error: any) {
