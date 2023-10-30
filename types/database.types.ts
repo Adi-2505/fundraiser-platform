@@ -26,7 +26,7 @@ export interface Database {
           id?: string
           title: string
           updated_at?: string
-          user?: string
+          user: string
         }
         Update: {
           content?: string
@@ -37,7 +37,39 @@ export interface Database {
           updated_at?: string
           user?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fundraisers_user_fkey"
+            columns: ["user"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      users: {
+        Row: {
+          avatar_url: string | null
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

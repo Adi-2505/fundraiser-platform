@@ -17,7 +17,13 @@ const ExplorePage = () => {
     { title: 'title', description: 'description', userEmail: 'emailId', content: 'content' },
   ]
 
+
+  
+
+
   return (
+
+
     <div className='flex flex-row flex-wrap gap-10'>
 
       {cardData.map((card, index) => (

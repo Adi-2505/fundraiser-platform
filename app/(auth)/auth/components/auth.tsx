@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import { FcGoogle } from 'react-icons/fc'
@@ -16,10 +18,27 @@ import {
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 
-
+import { useSupabase } from '@/provider/supabase-provider'
 
 
 const Auth = () => {
+
+  const { supabase } = useSupabase()
+
+  const onClick = async () => {
+    try{
+
+      let { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google'
+      })
+      console.log(data)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+
+
 
   return (
 
@@ -36,6 +55,7 @@ const Auth = () => {
             </div>
             <div className='mb-5'>
               <Button className='w-full border-slate-300 hover:shadow-md shadow-sm' variant={'outline'}
+                onClick={onClick}
               >
                 <FcGoogle size={25} />
 
