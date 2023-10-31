@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Card,
   CardContent,
@@ -6,27 +6,31 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
+import { type FundraisersRow, type usersRow } from "@/types/database.types";
 
-import { type FundraisersRow, type usersRow } from '@/types/database.types'
-
-interface CardItemProps {
-  title: FundraisersRow['title'] | undefined
-  description: FundraisersRow['title'] | undefined
-  content: FundraisersRow['title'] | undefined
-  username: usersRow['full_name'] | undefined
-
+interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
+  title: FundraisersRow["title"] | undefined;
+  description: FundraisersRow["description"] | undefined;
+  content: FundraisersRow["content"] | undefined;
+  username?: usersRow["full_name"] | undefined;
+  amountRaised: FundraisersRow["amount"] | undefined;
+  value: number;
 }
 
-
-const CardItem = ({ title, description, content, username }: CardItemProps) => {
-
+const CardItem = ({
+  title,
+  description,
+  content,
+  username,
+  amountRaised,
+  value,
+}: CardItemProps) => {
   return (
-    <div className='hover:cursor-pointer shadow-md hover:shadow-lg '>
-      <Card className='min-w-[300px] h-[350px] flex flex-col justify-between'>
-
+    <div className="hover:cursor-pointer shadow-md hover:shadow-lg">
+      <Card className="min-w-[300px] h-[350px] flex flex-col justify-between">
         <div>
           <CardHeader>
             <CardTitle>{title}</CardTitle>
@@ -36,19 +40,19 @@ const CardItem = ({ title, description, content, username }: CardItemProps) => {
           <CardContent>
             <p>{content}</p>
           </CardContent>
-
-
         </div>
-
+        
         <div>
+          <CardHeader>
+            <CardDescription>raised {amountRaised}</CardDescription>
+          </CardHeader>
           <CardFooter>
-            <Progress className='h-2 ' value={50}/>
+            <Progress className="h-2 " value={value} />
           </CardFooter>
         </div>
       </Card>
-
     </div>
-  )
-}
+  );
+};
 
-export default CardItem
+export default CardItem;

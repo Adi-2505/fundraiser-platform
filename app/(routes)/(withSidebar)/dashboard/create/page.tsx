@@ -31,6 +31,17 @@ const formSchema = z.object({
   Content: z.string().min(2, {
     message: "Content must be at least 2 characters.",
   }),
+  Target: z.string().refine(
+    (value) => {
+      // Convert the input string to a number
+      const numericValue = parseInt(value, 10);
+      // Check if the numericValue is a valid number and meets the minimum requirement
+      return !isNaN(numericValue) && numericValue >= 1000;
+    },
+    {
+      message: "Target amount must be a number and at least 1000.",
+    }
+  ),
 });
 
 const CreatePage = () => {
@@ -40,6 +51,7 @@ const CreatePage = () => {
       Title: "",
       Description: "",
       Content: "",
+      Target: "",
     },
   });
 
@@ -49,11 +61,14 @@ const CreatePage = () => {
 
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     try {
-      const { data, error } = await supabase.from("fundraisers").insert([{
-        title: value.Title,
-        description: value.Description,
-        content: value.Content,
-      }]);
+      const { data, error } = await supabase.from("fundraisers").insert([
+        {
+          title: value.Title,
+          description: value.Description,
+          content: value.Content,
+          target: parseInt(value.Target),
+        },
+      ]);
 
       console.log(data);
       // console.log(data);
@@ -114,7 +129,25 @@ const CreatePage = () => {
               </FormItem>
             )}
           />
-          <Button disabled={isLoading} type="submit">Submit</Button>
+          <FormField
+            control={form.control}
+            name="Target"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Target Amount</FormLabel>
+                <FormControl>
+                  <Input placeholder="Target Amount" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public Target amount of fundraiser.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button disabled={isLoading} type="submit">
+            Submit
+          </Button>
         </form>
       </Form>
     </div>

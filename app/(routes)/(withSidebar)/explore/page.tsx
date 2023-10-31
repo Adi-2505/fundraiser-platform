@@ -15,6 +15,12 @@ const ExplorePage = async () => {
             description={data?.fundraisers?.[index].description}
             username={data?.user?.[index].users?.full_name}
             content={data?.fundraisers?.[index].content}
+            amountRaised={data?.fundraisers?.[index].amount}
+            value={
+              (
+                (data?.fundraisers?.[index].amount ?? 0) / (data?.fundraisers?.[index].target ?? 1)
+              ) * 100
+            }
           />
         </Link>
       ))}

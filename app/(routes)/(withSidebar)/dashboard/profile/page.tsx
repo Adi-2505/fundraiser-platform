@@ -1,31 +1,48 @@
 
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-
+import { useRouter } from 'next/navigation'
+import { useSupabase } from '@/provider/supabase-provider'
+import { useSupabaseSession } from '@/provider/supabase-session-provider'
 
 
 import { Button } from '@/components/ui/button'
-import { useSupabase } from '@/provider/supabase-provider'
+import { User } from '@supabase/supabase-js'
+import Image from 'next/image'
 
 
 const ProfilePage = () => {
 
+  const [userData, setUserData] = useState<User>()
+
   const { supabase } = useSupabase()
+  const router = useRouter()
 
   const onClick = async () => {
     try {
-
       const { error } = await supabase.auth.signOut()
+      router.refresh()
     } catch (error) {
       console.log(error)
     }
   }
 
+  const session = useSupabaseSession()
+
+  useEffect(() => {
+    setUserData(session?.user ?? undefined)
+  }, [session])
+ 
+
   return (
     <div>
-      Profile page
+      <div>Email: {userData?.email}</div>
+      <div>Name: {userData?.user_metadata?.full_name}</div>
+      <div>
+        <Image src={userData?.user_metadata?.avatar_url} alt="photo" width={50} height={50}/>
+      </div>
       <Button variant={'destructive'} onClick={onClick}>Log Out</Button>
     </div>
   )

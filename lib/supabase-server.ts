@@ -56,3 +56,18 @@ export async function getFundraisers() {
   }
 }
 
+
+export async function getFundraisersById(id: string) {
+  const supabase = createServerSupabaseClient();
+  try {
+    const { data: fundraiser } = await supabase
+      .from('fundraisers')
+      .select('*')
+      .eq('user', id)
+    return fundraiser;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
+

@@ -1,9 +1,8 @@
-'use client'
+"use client";
 
-import React from 'react'
+import React, { useEffect, useState } from "react";
 
-
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,15 +11,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
+import { set, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-
-import * as z from "zod"
-
+import * as z from "zod";
+import { useSupabase } from "@/provider/supabase-provider";
+import { useSupabaseSession } from "@/provider/supabase-session-provider";
 
 const formSchema = z.object({
   Title: z.string().min(2, {
@@ -31,30 +30,90 @@ const formSchema = z.object({
   }),
   Content: z.string().min(2, {
     message: "Content must be at least 2 characters.",
-  })
-})
-
-
+  }),
+  Target: z.string().refine(
+    (value) => {
+      // Convert the input string to a number
+      const numericValue = parseInt(value, 10);
+      // Check if the numericValue is a valid number and meets the minimum requirement
+      return !isNaN(numericValue) && numericValue >= 1000;
+    },
+    {
+      message: "Target amount must be a number and at least 1000.",
+    }
+  ),
+});
 
 const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
+  const { supabase } = useSupabase();
 
+  const session = useSupabaseSession();
 
+  const [bool, setBool] = useState<boolean>(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       Title: "",
       Description: "",
-      Content: ""
+      Content: "",
     },
-  })
+  });
 
+  const isLoading = form.formState.isSubmitting;
+
+  useEffect(() => {
+    const getFundraiser = async () => {
+      const { data, error } = await supabase
+        .from("fundraisers")
+        .select("*")
+        .eq("id", params.Id)
+        .single();
+      setBool(data?.user === session?.user?.id);
+      if (error) {
+        console.log(error);
+      } else {
+        // console.log(data);
+        form.setValue("Title", data.title);
+        form.setValue("Description", data.description);
+        form.setValue("Content", data.content);
+        form.setValue("Target", data.target.toString());
+      }
+    };
+
+    getFundraiser();
+  }, []);
+
+  const onSubmit = async (value: z.infer<typeof formSchema>) => {
+    try {
+      const { data, error } = await supabase
+        .from("fundraisers")
+        .update({
+          title: value.Title,
+          description: value.Description,
+          content: value.Content,
+        })
+        .eq("id", params.Id);
+
+      // console.log(data);
+      // console.log(data);
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+
+  if (!bool) {
+    return (
+      <div>
+        <h1>Unauthorized access</h1>
+      </div>
+    );
+  }
 
   return (
     <div>
-
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(()=>{})} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
             name="Title"
@@ -103,12 +162,29 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
               </FormItem>
             )}
           />
-          <Button type="submit">Update</Button>
+          <FormField
+            control={form.control}
+            name="Target"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Target</FormLabel>
+                <FormControl>
+                  <Input placeholder="Target" {...field} disabled={true} />
+                </FormControl>
+                <FormDescription>
+                  This is your public target amount of fundraiser.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" disabled={isLoading}>
+            Update
+          </Button>
         </form>
       </Form>
-
     </div>
-  )
-}
+  );
+};
 
-export default FundraiserUpdatePage
+export default FundraiserUpdatePage;

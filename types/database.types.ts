@@ -11,28 +11,34 @@ export interface Database {
     Tables: {
       fundraisers: {
         Row: {
+          amount: number
           content: string
           created_at: string
           description: string
           id: string
+          target: number
           title: string
           updated_at: string
           user: string
         }
         Insert: {
+          amount?: number
           content: string
           created_at?: string
           description: string
           id?: string
+          target?: number
           title: string
           updated_at?: string
           user?: string
         }
         Update: {
+          amount?: number
           content?: string
           created_at?: string
           description?: string
           id?: string
+          target?: number
           title?: string
           updated_at?: string
           user?: string
@@ -86,6 +92,7 @@ export interface Database {
     }
   }
 }
+
 
 export type FundraisersRow = Database["public"]["Tables"]["fundraisers"]["Row"]
 export type usersRow = Database["public"]["Tables"]["users"]["Row"]
