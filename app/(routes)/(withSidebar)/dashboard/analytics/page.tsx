@@ -30,9 +30,8 @@ const DashboardPage = async () => {
             content={fundraiser.content}
             amountRaised={fundraiser.amount}
             value={(fundraiser.amount / fundraiser.target) * 100}
-            className=""
           />
-          <div className="absolute min-w-[300px] h-[350px] inset-0 bg-black opacity-0 hover:opacity-40 transition-opacity duration-300 text-white flex justify-center items-center rounded-md">
+          <div className="absolute w-[360px] h-[500px] inset-0 bg-black opacity-0 hover:opacity-40 transition-opacity duration-300 text-white flex justify-center items-center rounded-md">
             <Button variant={'default'} className="text-xl text-white">Manage</Button>
           </div>
         </Link>

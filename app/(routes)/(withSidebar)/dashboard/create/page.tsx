@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { useSupabase } from "@/provider/supabase-provider";
 
@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -28,9 +31,9 @@ const formSchema = z.object({
   Description: z.string().min(2, {
     message: "Description must be at least 2 characters.",
   }),
-  Content: z.string().min(2, {
-    message: "Content must be at least 2 characters.",
-  }),
+  // Content: z.string().min(2, {
+  //   message: "Content must be at least 2 characters.",
+  // }),
   Target: z.string().refine(
     (value) => {
       // Convert the input string to a number
@@ -45,12 +48,16 @@ const formSchema = z.object({
 });
 
 const CreatePage = () => {
+
+  const [content, setContent] = useState("");
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       Title: "",
       Description: "",
-      Content: "",
+      // Content: "",
       Target: "",
     },
   });
@@ -65,7 +72,7 @@ const CreatePage = () => {
         {
           title: value.Title,
           description: value.Description,
-          content: value.Content,
+          content: content,
           target: parseInt(value.Target),
         },
       ]);
@@ -113,7 +120,7 @@ const CreatePage = () => {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="Content"
             render={({ field }) => (
@@ -128,7 +135,7 @@ const CreatePage = () => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
           <FormField
             control={form.control}
             name="Target"
@@ -144,6 +151,25 @@ const CreatePage = () => {
                 <FormMessage />
               </FormItem>
             )}
+          />
+          <CKEditor
+            editor={ClassicEditor}
+            data="<p>Hello from CKEditor&nbsp;5!</p>"
+            onReady={(editor) => {
+              // You can store the "editor" and use when it is needed.
+              // console.log("Editor is ready to use!", editor);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setContent(data);
+            }}
+            onBlur={(event, editor) => {
+              // console.log("Blur.", editor);
+            }}
+            onFocus={(event, editor) => {
+              // console.log("Focus.", editor);
+            }}
+            
           />
           <Button disabled={isLoading} type="submit">
             Submit

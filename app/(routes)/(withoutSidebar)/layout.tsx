@@ -15,7 +15,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
 
 
   return (
-    <div className='mx-72 mt-16'>
+    <div className='mx-60 mt-16'>
       {children}
     </div>
   )
