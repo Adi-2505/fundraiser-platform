@@ -62,7 +62,7 @@ const CardItem = ({
             <CardDescription>{`By ${username}`}</CardDescription>
           </CardHeader>
           <CardContent>
-            <p>{formattedContent}</p>
+            <div>{formattedContent}</div>
           </CardContent>
         </div>
 

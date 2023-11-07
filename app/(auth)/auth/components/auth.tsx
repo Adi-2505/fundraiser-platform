@@ -29,9 +29,12 @@ const Auth = () => {
     try{
 
       let { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google'
+        provider: 'google',
+        options:{
+          redirectTo :"/auth/callback"
+        }
       })
-      console.log(data)
+      // console.log(data)
     }catch(error){
       console.log(error)
     }

@@ -31,7 +31,7 @@ const SupabaseSessionProvider = ({
       setSession(session);
     };
     getSession();
-  });
+  },[]);
 
   return <Context.Provider value={session}>{children}</Context.Provider>;
 };

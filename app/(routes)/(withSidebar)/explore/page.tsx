@@ -6,6 +6,10 @@ import { getFundraisers } from "@/lib/supabase-server";
 const ExplorePage = async () => {
   const data = await getFundraisers();
 
+  if(!data){
+    return <div>Loading...</div>
+  }
+
   return (
     <div className="flex flex-row flex-wrap gap-10">
       {data?.fundraisers?.map((fundraiser, index) => (

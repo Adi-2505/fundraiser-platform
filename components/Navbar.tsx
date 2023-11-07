@@ -3,7 +3,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-import { PiCubeFocusDuotone } from "react-icons/pi";
+
+import { Sprout } from "lucide-react";
 import { getSession } from "@/lib/supabase-server";
 
 const Navbar = async () => {
@@ -17,7 +18,8 @@ const Navbar = async () => {
           <Link href={"/"}>
             <div className="text-xl font-bold flex items-center cursor-pointer">
               <div className="rounded-md bg-slate-400 p-1 mr-2">
-                <PiCubeFocusDuotone color="white" size="1.5rem" />
+                {/* <PiCubeFocusDuotone color="white" size="1.5rem" /> */}
+                <Sprout color="white" size="1.5rem" />
               </div>
               <div>Fundraiser</div>
             </div>

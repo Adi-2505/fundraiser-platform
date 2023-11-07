@@ -32,16 +32,23 @@ const ProfilePage = () => {
   const session = useSupabaseSession()
 
   useEffect(() => {
-    setUserData(session?.user ?? undefined)
-  }, [session])
+    if (session) {
+      // console.log(session);
+      setUserData(session.user ?? undefined);
+    }
+  }, [session]);
+
+  if(!userData){
+    return <div>Loading...</div>
+  }
  
 
   return (
     <div>
-      <div>Email: {userData?.email}</div>
-      <div>Name: {userData?.user_metadata?.full_name}</div>
+      <div>Email: {userData.email}</div>
+      <div>Name: {userData.user_metadata.full_name}</div>
       <div>
-        <Image src={userData?.user_metadata?.avatar_url} alt="photo" width={50} height={50}/>
+        <Image src={userData.user_metadata.avatar_url} alt="photo" width={50} height={50}/>
       </div>
       <Button variant={'destructive'} onClick={onClick}>Log Out</Button>
     </div>
