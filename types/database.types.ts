@@ -12,6 +12,7 @@ export interface Database {
       fundraisers: {
         Row: {
           amount: number
+          category: string | null
           content: string
           created_at: string
           description: string
@@ -23,6 +24,7 @@ export interface Database {
         }
         Insert: {
           amount?: number
+          category?: string | null
           content: string
           created_at?: string
           description: string
@@ -34,6 +36,7 @@ export interface Database {
         }
         Update: {
           amount?: number
+          category?: string | null
           content?: string
           created_at?: string
           description?: string
@@ -47,6 +50,7 @@ export interface Database {
           {
             foreignKeyName: "fundraisers_user_fkey"
             columns: ["user"]
+            isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -72,6 +76,7 @@ export interface Database {
           {
             foreignKeyName: "users_id_fkey"
             columns: ["id"]
+            isOneToOne: true
             referencedRelation: "users"
             referencedColumns: ["id"]
           }
@@ -92,6 +97,7 @@ export interface Database {
     }
   }
 }
+
 
 
 export type FundraisersRow = Database["public"]["Tables"]["fundraisers"]["Row"]

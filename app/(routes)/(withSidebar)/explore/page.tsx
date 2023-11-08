@@ -1,29 +1,103 @@
-import React from "react";
+'use client'
+
+import React, { useEffect, useState } from "react";
 import CardItem from "@/components/Cards/CardItem";
 import Link from "next/link";
-import { getFundraisers } from "@/lib/supabase-server";
+// import { getFundraisers } from "@/lib/supabase-server";
+import { useSupabase } from "@/provider/supabase-provider";
 
-const ExplorePage = async () => {
-  const data = await getFundraisers();
+import { FundraisersRow } from "@/types/database.types";
+import { useSearchParams } from "next/navigation";
 
-  if(!data){
-    return <div>Loading...</div>
+// Explicitly define the type of the fetched fundraiser data object
+type fundraiserTypes = {
+  amount: number;
+  category: string | null;
+  content: string;
+  created_at: string;
+  description: string;
+  id: string;
+  target: number;
+  title: string;
+  updated_at: string;
+  user: string;
+  users: {
+    full_name: string | null;
+  } | null;
+}
+
+
+const ExplorePage = () => {
+  // const data = await getFundraisers();
+  const [data, setData] = useState<fundraiserTypes[] | null>();
+  const { supabase } = useSupabase();
+
+  const query = useSearchParams();
+
+
+  useEffect(() => {
+
+
+    if (query.get('filter')) {
+      const getData = async () => {
+        const { data: fundraisers } = await supabase
+          .from('fundraisers')
+          .select(`
+            *,
+            users (
+              full_name
+            )
+          `)
+          .filter('category', 'eq', query.get('filter'))
+
+
+        setData(fundraisers)
+        // console.log(fundraisers)
+      }
+
+      getData()
+
+    } else {
+      const getData = async () => {
+
+        const { data: fundraisers } = await supabase
+          .from('fundraisers')
+          .select(`
+            *,
+            users (
+              full_name
+            )
+          `);
+
+        setData(fundraisers)
+
+      }
+      getData()
+
+    }
+
+
+    // getData()
+  }, [query.get('filter')])
+
+  if (!data) {
+    return <div className="text-2xl font-bold flex flex-row justify-center items-center">Loading...</div>
   }
 
   return (
     <div className="flex flex-row flex-wrap gap-10">
-      {data?.fundraisers?.map((fundraiser, index) => (
+      {data?.map((fundraiser, index) => (
         <Link href={`/fundraiser/${fundraiser?.id}`} key={index}>
           <CardItem
-            title={data.fundraisers?.[index].title}
-            description={data?.fundraisers?.[index].description}
-            username={data?.user?.[index].users?.full_name}
-            content={data?.fundraisers?.[index].content}
-            amountRaised={data?.fundraisers?.[index].amount}
+            title={fundraiser.title}
+            description={fundraiser.description}
+            username={fundraiser.users?.full_name}
+            content={fundraiser.content}
+            amountRaised={fundraiser.amount}
             button
             value={
-              ((data?.fundraisers?.[index].amount ?? 0) /
-                (data?.fundraisers?.[index].target ?? 1)) *
+              ((fundraiser.amount ?? 0) /
+                (fundraiser.target ?? 1)) *
               100
             }
           />

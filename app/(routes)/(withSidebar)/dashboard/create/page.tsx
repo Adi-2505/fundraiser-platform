@@ -16,8 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -152,25 +154,9 @@ const CreatePage = () => {
               </FormItem>
             )}
           />
-          <CKEditor
-            editor={ClassicEditor}
-            data="<p>Hello from CKEditor&nbsp;5!</p>"
-            onReady={(editor) => {
-              // You can store the "editor" and use when it is needed.
-              // console.log("Editor is ready to use!", editor);
-            }}
-            onChange={(event, editor) => {
-              const data = editor.getData();
-              setContent(data);
-            }}
-            onBlur={(event, editor) => {
-              // console.log("Blur.", editor);
-            }}
-            onFocus={(event, editor) => {
-              // console.log("Focus.", editor);
-            }}
-            
-          />
+
+          <div>Content</div>
+          <ReactQuill theme='bubble' value={content} onChange={setContent} className="w-[600px] h-[400px]" />
           <Button disabled={isLoading} type="submit">
             Submit
           </Button>
