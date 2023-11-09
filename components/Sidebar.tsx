@@ -17,14 +17,19 @@ const Sidebar = () => {
   const router = useRouter();
 
   const handleFilter = (filterValue: string) => {
-    const url = qs.stringifyUrl({
-      url: '/explore',
-      query: {
-        filter: filterValue
-      }
-    })
 
-    router.push(url)
+    if (filterValue !== 'clear') {
+      const url = qs.stringifyUrl({
+        url: '/explore',
+        query: {
+          filter: filterValue
+        }
+      })
+      router.push(url)
+    } else {
+      router.push('/explore')
+    }
+
   }
 
 
@@ -52,9 +57,10 @@ const Sidebar = () => {
         ) : (
           <div className='p-8 flex flex-col space-y-5'>
             Catagories
-            <Button onClick={()=>handleFilter('health')}>Health</Button>
-            <Button onClick={()=>handleFilter('NGO')}>NGO</Button>
-            <Button onClick={()=>handleFilter('personal')}>Personal</Button>
+            <Button onClick={() => handleFilter('health')}>Health</Button>
+            <Button onClick={() => handleFilter('NGO')}>NGO</Button>
+            <Button onClick={() => handleFilter('personal')}>Personal</Button>
+            <Button onClick={() => handleFilter('clear')}>Clear</Button>
           </div>
         )
       }

@@ -156,7 +156,7 @@ const CreatePage = () => {
           />
 
           <div>Content</div>
-          <ReactQuill theme='bubble' value={content} onChange={setContent} className="w-[600px] h-[400px]" />
+          <ReactQuill theme='snow' value={content} onChange={setContent} className="w-[600px] h-[400px]" />
           <Button disabled={isLoading} type="submit">
             Submit
           </Button>
