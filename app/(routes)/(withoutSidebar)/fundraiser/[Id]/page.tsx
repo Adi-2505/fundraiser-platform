@@ -1,8 +1,10 @@
 "use client";
 import React, { HTMLProps, useEffect, useState } from "react";
 
+import axios from "axios";
+
 import Image from "next/image";
-import { useSupabase } from "@/provider/supabase-provider";
+import { useSupabase } from "@/providers/supabase-provider";
 import { FundraisersRow } from "@/types/database.types";
 
 import { Button } from "@/components/ui/button";
@@ -83,6 +85,18 @@ const FundraiserPage = ({ params }: { params: { Id: string } }) => {
     // autoplaySpeed: 2000,
   };
 
+  const handleCheckout = async () => {
+    try {
+      const response = await axios.post("/api/checkout", { id: fundraiser?.id, amount: 1000, name: 'Aditya' });
+      // console.log(response.data);
+      // console.log(response.data.url);
+      window.open(response.data.url, "_blank");
+    } catch (error: any) {
+      // console.log('error');
+      console.log(error.message);
+    }
+  }
+
   return (
     <div className="flex flex-row gap-5">
       <div className="w-3/4">
@@ -109,7 +123,7 @@ const FundraiserPage = ({ params }: { params: { Id: string } }) => {
                 </div>
                 <div className="mt-10">
 
-                {ReactHtmlParser(fundraiser?.content ?? "")}
+                  {ReactHtmlParser(fundraiser?.content ?? "")}
                 </div>
               </div>
               <div>This is 2nd slide</div>
@@ -121,6 +135,7 @@ const FundraiserPage = ({ params }: { params: { Id: string } }) => {
         <Button
           className="w-full text-xl p-8 flex gap-2 justify-center items-center"
           variant={"secondary"}
+          onClick={handleCheckout}
         >
           <AiOutlineHeart size={22} />
           Contribute

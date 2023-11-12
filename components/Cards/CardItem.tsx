@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from "react";
+import React, { ChangeEvent, MouseEventHandler, useState } from "react";
 
 
 import {
@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/dialog"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faLinkedin, faSquareFacebook, faSquareWhatsapp, faSquareXTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faLinkedin, faSquareFacebook, faSquareWhatsapp, faSquareXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 import { Progress } from "@/components/ui/progress";
 
@@ -34,6 +34,7 @@ import Link from "next/link";
 import { Input } from "../ui/input";
 import { Check, Copy } from "lucide-react";
 import { Separator } from "../ui/separator";
+import { useRouter } from "next/navigation";
 
 interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
   title: FundraisersRow["title"] | undefined;
@@ -41,11 +42,13 @@ interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
   content: FundraisersRow["content"] | undefined;
   username?: usersRow["full_name"] | undefined;
   amountRaised: FundraisersRow["amount"] | undefined;
-  value: number;
+  targetAmount: number;
   button?: boolean;
   id?: string;
-
+  link?: boolean;
 }
+
+
 
 const CardItem = ({
   title,
@@ -53,12 +56,13 @@ const CardItem = ({
   content,
   username,
   amountRaised,
-  value,
+  targetAmount,
   button,
   id,
-
+  link
 }: CardItemProps) => {
 
+  const router = useRouter()
 
   const FUNDRAISER_URL = window.location.origin + `/fundraiser/${id}`;
 
@@ -114,35 +118,45 @@ const CardItem = ({
   };
 
 
+  const handleContribute = () => {
+    router.push(FUNDRAISER_URL + '?donate=true')
+  }
+
+
 
   return (
     <div className="hover:cursor-pointer shadow-md hover:shadow-lg">
       <Card className="w-[360px] h-[500px] flex flex-col justify-between">
 
-
+        <Link href={(link && FUNDRAISER_URL) as string}>
+          <div>
+            <CardHeader>
+              <CardTitle>{formattedTitle}</CardTitle>
+              <CardDescription>{formattedDescription}</CardDescription>
+              <CardDescription>{`By ${username}`}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div>{formattedContent}</div>
+            </CardContent>
+          </div>
+        </Link>
         <div>
           <CardHeader>
-            <CardTitle>{formattedTitle}</CardTitle>
-            <CardDescription>{formattedDescription}</CardDescription>
-            <CardDescription>{`By ${username}`}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div>{formattedContent}</div>
-          </CardContent>
-        </div>
-
-        <div>
-          <CardHeader>
-            <CardDescription>raised {amountRaised}</CardDescription>
+            <CardDescription>
+              <span className="font-bold text-xl">₹ {amountRaised}</span> raised out of ₹ {targetAmount}
+            </CardDescription>
           </CardHeader>
           <CardFooter>
-            <Progress className="h-2 " value={value} />
+            <Progress className="h-2 " value={(amountRaised ?? 0 / targetAmount) * 100} />
           </CardFooter>
           <CardFooter className="flex flex-row items-center justify-center gap-3">
             {button && (
-              <Button className="bg-teal-500 text-white py-2 px-4 rounded-md  w-full">
-                Contribute
-              </Button>
+
+              <Link href={FUNDRAISER_URL + '?donate=true'} className="w-full">
+                <Button className="bg-teal-500 text-white py-2 px-4 rounded-md  w-full" onClick={handleContribute}>
+                  Contribute
+                </Button>
+              </Link>
             )}
             {button && (
 

@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import CardItem from "@/components/Cards/CardItem";
-import Link from "next/link";
+
 // import { getFundraisers } from "@/lib/supabase-server";
-import { useSupabase } from "@/provider/supabase-provider";
+import { useSupabase } from "@/providers/supabase-provider";
 
 // import { FundraisersRow } from "@/types/database.types";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+
 
 // Explicitly define the type of the fetched fundraiser data object
 type fundraiserTypes = {
@@ -31,8 +31,6 @@ const ExplorePage = () => {
   // const data = await getFundraisers();
   const [data, setData] = useState<fundraiserTypes[] | null>();
   const { supabase } = useSupabase();
-
-  const router = useRouter();
 
   const query = useSearchParams();
 
@@ -64,8 +62,9 @@ const ExplorePage = () => {
             users (
               full_name
             )
-          `);
-
+          `)
+          .filter("status", "eq", "active");
+        console.log(fundraisers);
         setData(fundraisers);
       };
       getData();
@@ -74,15 +73,11 @@ const ExplorePage = () => {
     // getData()
   }, [query.get("filter")]);
 
-  const handleClick = (id: string) => {
-    router.push(`/fundraiser/${id}`);
-  }
-
   
 
   if (!data) {
     return (
-      <div className="text-2xl font-bold flex flex-row justify-center items-center">
+      <div className="text-2xl font-bold flex flex-row justify-center items-center h-screen">
         Loading...
       </div>
     );
@@ -92,7 +87,7 @@ const ExplorePage = () => {
     <div className="flex flex-row flex-wrap gap-10">
       {data?.map((fundraiser, index) => (
         // <Link href={`/fundraiser/${fundraiser.id}`} key={index}>
-        <div key={index} onClick={()=>handleClick(fundraiser.id)}>
+        
           <CardItem
             key={index}
             title={fundraiser.title}
@@ -101,11 +96,11 @@ const ExplorePage = () => {
             content={fundraiser.content}
             amountRaised={fundraiser.amount}
             button
-            value={((fundraiser.amount ?? 0) / (fundraiser.target ?? 1)) * 100}
+            targetAmount={fundraiser.target}
             id={fundraiser.id}
-       
+            link
           />
-        </div>
+        
       ))}
     </div>
   );

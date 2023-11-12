@@ -9,6 +9,38 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      contributors: {
+        Row: {
+          amount: number
+          created_at: string
+          fundraiser_id: string
+          id: string
+          name: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          fundraiser_id: string
+          id?: string
+          name?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          fundraiser_id?: string
+          id?: string
+          name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contributors_fundraiser_id_fkey"
+            columns: ["fundraiser_id"]
+            isOneToOne: false
+            referencedRelation: "fundraisers"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       fundraisers: {
         Row: {
           amount: number
@@ -17,6 +49,7 @@ export interface Database {
           created_at: string
           description: string
           id: string
+          status: Database["public"]["Enums"]["status"]
           target: number
           title: string
           updated_at: string
@@ -29,6 +62,7 @@ export interface Database {
           created_at?: string
           description: string
           id?: string
+          status?: Database["public"]["Enums"]["status"]
           target?: number
           title: string
           updated_at?: string
@@ -41,6 +75,7 @@ export interface Database {
           created_at?: string
           description?: string
           id?: string
+          status?: Database["public"]["Enums"]["status"]
           target?: number
           title?: string
           updated_at?: string
@@ -90,13 +125,14 @@ export interface Database {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      status: "active" | "inactive"
     }
     CompositeTypes: {
       [_ in never]: never
     }
   }
 }
+
 
 
 

@@ -4,8 +4,10 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/Navbar'
-import SupabaseProvider from '../provider/supabase-provider'
-import SupabaseSessionProvider from '@/provider/supabase-session-provider'
+import SupabaseProvider from '../providers/supabase-provider'
+import SupabaseSessionProvider from '@/providers/supabase-session-provider'
+
+import DonateModel from '@/providers/donate-modal-provider'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -30,7 +32,7 @@ export default function RootLayout({
           <SupabaseSessionProvider>
             <Navbar />
             <div>
-
+              <DonateModel />
               {children}
             </div>
           </SupabaseSessionProvider>

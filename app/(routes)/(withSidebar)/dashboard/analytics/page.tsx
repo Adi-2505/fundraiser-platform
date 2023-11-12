@@ -1,15 +1,16 @@
 import React from "react";
 import Link from "next/link";
 
-import { getFundraisersById, getSession } from "@/lib/supabase-server";
+import { getFundraisersByUserId, getSession } from "@/lib/supabase-server";
 import CardItem from "@/components/Cards/CardItem";
 import { Button } from "@/components/ui/button";
 
 const DashboardPage = async () => {
+  
   const session = await getSession();
   const userId = session?.user.id;
 
-  const fundraisers = await getFundraisersById(userId as string);
+  const fundraisers = await getFundraisersByUserId(userId as string);
 
   // console.log(fundraisers)
 
@@ -29,7 +30,8 @@ const DashboardPage = async () => {
             username={session?.user.user_metadata.full_name}
             content={fundraiser.content}
             amountRaised={fundraiser.amount}
-            value={(fundraiser.amount / fundraiser.target) * 100}
+            targetAmount={fundraiser.target}
+            link={false}
           />
           <div className="absolute w-[360px] h-[500px] inset-0 bg-black opacity-0 hover:opacity-40 transition-opacity duration-300 text-white flex justify-center items-center rounded-md">
             <Button variant={'default'} className="text-xl text-white">Manage</Button>

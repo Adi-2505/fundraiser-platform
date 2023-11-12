@@ -18,7 +18,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 
-import { useSupabase } from '@/provider/supabase-provider'
+import { useSupabase } from '@/providers/supabase-provider'
 
 
 const Auth = () => {

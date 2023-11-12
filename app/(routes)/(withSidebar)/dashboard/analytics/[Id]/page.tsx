@@ -18,8 +18,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import * as z from "zod";
-import { useSupabase } from "@/provider/supabase-provider";
-import { useSupabaseSession } from "@/provider/supabase-session-provider";
+import { useSupabase } from "@/providers/supabase-provider";
+import { useSupabaseSession } from "@/providers/supabase-session-provider";
 
 const formSchema = z.object({
   Title: z.string().min(2, {

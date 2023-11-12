@@ -26,7 +26,7 @@
     "@supabase/auth-helpers-nextjs": "^0.8.1",
     "@supabase/auth-helpers-react": "^0.4.2",
     "@supabase/supabase-js": "^2.38.2",
-    "axios": "^1.5.1",
+    "axios": "^1.6.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "html-react-parser": "^5.0.3",
@@ -41,9 +41,11 @@
     "react-quill": "^2.0.0",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
+    "stripe": "^14.4.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.4.6"
   },
   "devDependencies": {
     "@types/node": "^20",

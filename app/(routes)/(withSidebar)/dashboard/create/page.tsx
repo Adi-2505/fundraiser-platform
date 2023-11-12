@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { useSupabase } from "@/provider/supabase-provider";
+import { useSupabase } from "@/providers/supabase-provider";
 
 import { Button } from "@/components/ui/button";
 import {

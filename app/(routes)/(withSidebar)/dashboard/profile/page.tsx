@@ -4,8 +4,8 @@
 import React, { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
-import { useSupabase } from '@/provider/supabase-provider'
-import { useSupabaseSession } from '@/provider/supabase-session-provider'
+import { useSupabase } from '@/providers/supabase-provider'
+import { useSupabaseSession } from '@/providers/supabase-session-provider'
 
 
 import { Button } from '@/components/ui/button'
