@@ -16,10 +16,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -50,9 +48,7 @@ const formSchema = z.object({
 });
 
 const CreatePage = () => {
-
   const [content, setContent] = useState("");
-
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -70,12 +66,23 @@ const CreatePage = () => {
 
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     try {
+
+      const slug =  value.Title
+          .toLowerCase() // Convert title to lowercase
+          .replace(/[^\w\s]/g, '') // Remove non-word and non-space characters
+          .trim() // Trim leading/trailing spaces
+          .replace(/\s+/g, '-') // Replace spaces with dashes
+          .substring(0, 50); // Limit the length of the slug (adjust as needed)
+      
+
+
       const { data, error } = await supabase.from("fundraisers").insert([
         {
           title: value.Title,
           description: value.Description,
           content: content,
           target: parseInt(value.Target),
+          slug: slug,
         },
       ]);
 
@@ -156,7 +163,12 @@ const CreatePage = () => {
           />
 
           <div>Content</div>
-          <ReactQuill theme='snow' value={content} onChange={setContent} className="w-[600px] h-[400px]" />
+          <ReactQuill
+            theme="snow"
+            value={content}
+            onChange={setContent}
+            className="w-[600px] h-[400px]"
+          />
           <Button disabled={isLoading} type="submit">
             Submit
           </Button>

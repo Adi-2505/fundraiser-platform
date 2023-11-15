@@ -16,6 +16,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
+
+import { useDonateModalStore } from "@/hooks/use-donate-modal";
+import { useShareModalStore } from "@/hooks/use-share-modal";
 
 interface CustomArrowProps extends HTMLProps<HTMLDivElement> {
   bold: number;
@@ -55,19 +59,32 @@ const CustomPreviousArrow = (props: CustomArrowProps) => {
   );
 };
 
-const FundraiserPage = ({ params }: { params: { Id: string } }) => {
+const FundraiserPage = ({ params }: { params: { slug: string } }) => {
   const { supabase } = useSupabase();
   const [fundraiser, setFundraiser] = useState<FundraisersRow | null>();
   const [activeSlide, setActiveSlide] = useState<number>(0);
+
+  const query = useSearchParams();
+
+  const { onOpen: openDonateModal } = useDonateModalStore();
+  const { onOpen: openShareModal } = useShareModalStore();
 
   useEffect(() => {
     const getFundraiser = async () => {
       const { data, error } = await supabase
         .from("fundraisers")
         .select("*")
-        .eq("id", params.Id)
+        .eq("slug", params.slug)
         .single();
       setFundraiser(data);
+
+      if (query.get("donate") == "true") {
+        openDonateModal();
+      }
+
+      if(query.get('share') == 'true'){
+        openShareModal()
+      }
     };
     getFundraiser();
   }, []);
@@ -85,16 +102,12 @@ const FundraiserPage = ({ params }: { params: { Id: string } }) => {
     // autoplaySpeed: 2000,
   };
 
-  const handleCheckout = async () => {
-    try {
-      const response = await axios.post("/api/checkout", { id: fundraiser?.id, amount: 1000, name: 'Aditya' });
-      // console.log(response.data);
-      // console.log(response.data.url);
-      window.open(response.data.url, "_blank");
-    } catch (error: any) {
-      // console.log('error');
-      console.log(error.message);
-    }
+  if(!fundraiser){
+    return (
+      <div className="text-2xl font-bold flex flex-row justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
   }
 
   return (
@@ -122,7 +135,6 @@ const FundraiserPage = ({ params }: { params: { Id: string } }) => {
                   About the fundraiser
                 </div>
                 <div className="mt-10">
-
                   {ReactHtmlParser(fundraiser?.content ?? "")}
                 </div>
               </div>
@@ -135,7 +147,7 @@ const FundraiserPage = ({ params }: { params: { Id: string } }) => {
         <Button
           className="w-full text-xl p-8 flex gap-2 justify-center items-center"
           variant={"secondary"}
-          onClick={handleCheckout}
+          // onClick={handleCheckout}
         >
           <AiOutlineHeart size={22} />
           Contribute

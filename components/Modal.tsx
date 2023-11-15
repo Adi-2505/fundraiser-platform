@@ -1,37 +1,43 @@
-'use client'
-import React from 'react'
+"use client";
+import React, { useEffect, useState } from "react";
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from './ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 
 interface ModalProps {
   title: string;
   description: string;
   children?: React.ReactNode;
   open?: boolean;
+  onClose: () => void;
 }
 
+const Modal = ({ title, description, children, open, onClose }: ModalProps) => {
+  const [isMounted, setIsMounted] = useState(false);
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
-const Modal = (
-  {
-    title,
-    description,
-    children,
-    open,
-  }: ModalProps,) => {
+  if (!isMounted) return null;
+
   return (
-    <div>
-      <Dialog open={open}>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent>
         <DialogHeader>
-          <DialogTitle>Modal Title</DialogTitle>
-          <DialogDescription>Modal Description</DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <DialogContent>
-          {children}
-        </DialogContent>
-      </Dialog>
-    </div>
-  )
-}
 
-export default Modal
+        {children}
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default Modal;

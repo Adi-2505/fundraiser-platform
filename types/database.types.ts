@@ -49,6 +49,7 @@ export interface Database {
           created_at: string
           description: string
           id: string
+          slug: string
           status: Database["public"]["Enums"]["status"]
           target: number
           title: string
@@ -62,6 +63,7 @@ export interface Database {
           created_at?: string
           description: string
           id?: string
+          slug?: string
           status?: Database["public"]["Enums"]["status"]
           target?: number
           title: string
@@ -75,6 +77,7 @@ export interface Database {
           created_at?: string
           description?: string
           id?: string
+          slug?: string
           status?: Database["public"]["Enums"]["status"]
           target?: number
           title?: string
@@ -132,6 +135,7 @@ export interface Database {
     }
   }
 }
+
 
 
 

@@ -22,6 +22,7 @@ type fundraiserTypes = {
   title: string;
   updated_at: string;
   user: string;
+  slug: string;
   users: {
     full_name: string | null;
   } | null;
@@ -99,6 +100,7 @@ const ExplorePage = () => {
             targetAmount={fundraiser.target}
             id={fundraiser.id}
             link
+            slug={fundraiser.slug}
           />
         
       ))}
