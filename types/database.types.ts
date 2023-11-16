@@ -15,21 +15,21 @@ export interface Database {
           created_at: string
           fundraiser_id: string
           id: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           content?: string | null
           created_at?: string
           fundraiser_id: string
           id?: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           content?: string | null
           created_at?: string
           fundraiser_id?: string
           id?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -37,6 +37,13 @@ export interface Database {
             columns: ["fundraiser_id"]
             isOneToOne: false
             referencedRelation: "fundraisers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comments_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           }
         ]
@@ -82,6 +89,7 @@ export interface Database {
           created_at: string
           description: string
           id: string
+          image_url: string | null
           slug: string
           status: Database["public"]["Enums"]["status"]
           target: number
@@ -97,6 +105,7 @@ export interface Database {
           created_at?: string
           description: string
           id?: string
+          image_url?: string | null
           slug: string
           status?: Database["public"]["Enums"]["status"]
           target?: number
@@ -112,6 +121,7 @@ export interface Database {
           created_at?: string
           description?: string
           id?: string
+          image_url?: string | null
           slug?: string
           status?: Database["public"]["Enums"]["status"]
           target?: number

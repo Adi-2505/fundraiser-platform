@@ -6,7 +6,6 @@ import CardItem from "@/components/Cards/CardItem";
 import { Button } from "@/components/ui/button";
 
 const DashboardPage = async () => {
-  
   const session = await getSession();
   const userId = session?.user.id;
 
@@ -19,10 +18,9 @@ const DashboardPage = async () => {
       {/* managing the fundraisers */}
       {/* show all the funndraisers by the user */}
       {fundraisers?.map((fundraiser, index) => (
-        <Link
-          href={`/dashboard/analytics/${fundraiser.id}`}
-          key={index}
+        <div
           className="relative group transition duration-300 ease-in-out transform"
+          key={index}
         >
           <CardItem
             title={fundraiser.title}
@@ -32,11 +30,17 @@ const DashboardPage = async () => {
             amountRaised={fundraiser.amount}
             targetAmount={fundraiser.target}
             link={false}
+            fundraiserImageUrl={fundraiser.image_url!}
+            avatarUrl={session?.user.user_metadata.avatar_url!}
           />
-          <div className="absolute w-[360px] h-[500px] inset-0 bg-black opacity-0 hover:opacity-40 transition-opacity duration-300 text-white flex justify-center items-center rounded-md">
-            <Button variant={'default'} className="text-xl text-white">Manage</Button>
-          </div>
-        </Link>
+          <Link href={`/dashboard/analytics/${fundraiser.id}`}>
+            <div className="absolute w-[360px] inset-0 bg-black opacity-0 hover:opacity-40 transition-opacity duration-300 text-white flex justify-center items-center rounded-md">
+              <Button variant={"default"} className="text-xl text-white">
+                Manage
+              </Button>
+            </div>
+          </Link>
+        </div>
       ))}
     </div>
   );

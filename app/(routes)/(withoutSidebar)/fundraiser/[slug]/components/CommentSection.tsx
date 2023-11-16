@@ -91,7 +91,7 @@ const CommentSection = ({ fundraiserId }: CommentInputProps) => {
         await supabase.from("comments").insert({
           content: comment,
           fundraiser_id: fundraiserId,
-          user_id: session?.user.id,
+          user_id: session?.user.id as string,
         });
       }
     } catch (error) {

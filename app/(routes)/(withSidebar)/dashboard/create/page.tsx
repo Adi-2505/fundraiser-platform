@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useSupabase } from "@/providers/supabase-provider";
 
@@ -77,6 +77,11 @@ const CreatePage = () => {
         .replace(/\s+/g, "-") // Replace spaces with dashes
         .substring(0, 50); // Limit the length of the slug (adjust as needed)
 
+      const fileName = uuidv4() 
+      await supabase.storage
+        .from("fundraiser_image")
+        .upload(fileName, fileInputRef.current?.files![0]!);
+      
       await supabase.from("fundraisers").insert([
         {
           title: value.Title,
@@ -84,18 +89,18 @@ const CreatePage = () => {
           content: content,
           target: parseInt(value.Target),
           slug: slug,
+          image_url: process.env.NEXT_PUBLIC_SUPABASE_URL + "/storage/v1/object/public/fundraiser_image/" + fileName,
         },
       ]);
       // console.log(fileInputRef.current?.files);
-      await supabase.storage
-        .from("fundraiser_image")
-        .upload(uuidv4() as string, fileInputRef.current?.files![0]!);
-      // console.log(data);
-      // console.log(data);
+
+      
     } catch (error: any) {
       console.log(error.message);
     }
   };
+
+
 
   return (
     <div>

@@ -74,7 +74,7 @@ const CardItem = ({
           <div>
             <div className="h-[250px] w-full p-3">
               <Image
-                src="/Images/2020-spider-gwen-art.jpg"
+                src={fundraiserImageUrl!}
                 alt="img"
                 className="object-fill h-[230px] w-full rounded-md"
                 width={300}

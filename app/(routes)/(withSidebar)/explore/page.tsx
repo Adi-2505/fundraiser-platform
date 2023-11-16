@@ -23,6 +23,7 @@ type fundraiserTypes = {
   updated_at: string;
   user: string;
   slug: string;
+  image_url: string | null;
   users: {
     full_name: string | null;
     avatar_url: string | null;
@@ -105,6 +106,7 @@ const ExplorePage = () => {
             link
             slug={fundraiser.slug}
             avatarUrl={fundraiser.users?.avatar_url!}
+            fundraiserImageUrl={fundraiser.image_url!}
           />
         
       ))}
