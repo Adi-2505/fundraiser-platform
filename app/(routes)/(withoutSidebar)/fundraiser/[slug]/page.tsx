@@ -1,11 +1,9 @@
 "use client";
 import React, { HTMLProps, useEffect, useState } from "react";
 
-import axios from "axios";
-
 import Image from "next/image";
 import { useSupabase } from "@/providers/supabase-provider";
-import { FundraisersRow } from "@/types/database.types";
+import { CommentsRow, FundraisersRow } from "@/types/database.types";
 
 import { Button } from "@/components/ui/button";
 import { AiOutlineHeart } from "react-icons/ai";
@@ -20,6 +18,8 @@ import { useSearchParams } from "next/navigation";
 
 import { useDonateModalStore } from "@/hooks/use-donate-modal";
 import { useShareModalStore } from "@/hooks/use-share-modal";
+
+import CommentSection from "./components/CommentSection";
 
 interface CustomArrowProps extends HTMLProps<HTMLDivElement> {
   bold: number;
@@ -64,6 +64,8 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
   const [fundraiser, setFundraiser] = useState<FundraisersRow | null>();
   const [activeSlide, setActiveSlide] = useState<number>(0);
 
+
+
   const query = useSearchParams();
 
   const { onOpen: openDonateModal } = useDonateModalStore();
@@ -71,20 +73,22 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 
   useEffect(() => {
     const getFundraiser = async () => {
-      const { data, error } = await supabase
+      const { data: fundraiser } = await supabase
         .from("fundraisers")
         .select("*")
         .eq("slug", params.slug)
         .single();
-      setFundraiser(data);
+      setFundraiser(fundraiser);
 
       if (query.get("donate") == "true") {
         openDonateModal();
       }
 
-      if(query.get('share') == 'true'){
-        openShareModal()
+      if (query.get("share") == "true") {
+        openShareModal();
       }
+
+      
     };
     getFundraiser();
   }, []);
@@ -102,7 +106,7 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
     // autoplaySpeed: 2000,
   };
 
-  if(!fundraiser){
+  if (!fundraiser) {
     return (
       <div className="text-2xl font-bold flex flex-row justify-center items-center h-screen">
         Loading...
@@ -138,7 +142,14 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
                   {ReactHtmlParser(fundraiser?.content ?? "")}
                 </div>
               </div>
-              <div>This is 2nd slide</div>
+
+              {/* 2nd slide */}
+
+              <div className="space-y-4">
+                <CommentSection 
+                  fundraiserId={fundraiser?.id as string}
+                />
+              </div>
             </Slider>
           </div>
         </div>

@@ -25,6 +25,7 @@ type fundraiserTypes = {
   slug: string;
   users: {
     full_name: string | null;
+    avatar_url: string | null;
   } | null;
 };
 
@@ -38,19 +39,20 @@ const ExplorePage = () => {
   useEffect(() => {
     if (query.get("filter")) {
       const getData = async () => {
-        const { data: fundraisers } = await supabase
+        const { data: fundraisers, error } = await supabase
           .from("fundraisers")
-          .select(
-            `
-            *,
+          .select(`*,
             users (
-              full_name
+              full_name,
+              avatar_url
             )
-          `
-          )
+          
+          `)
           .filter("category", "eq", query.get("filter"));
+             
 
-        setData(fundraisers);
+          setData(fundraisers);
+              
         // console.log(fundraisers)
       };
 
@@ -61,7 +63,8 @@ const ExplorePage = () => {
           .select(`
             *,
             users (
-              full_name
+              full_name,
+              avatar_url
             )
           `)
           .filter("status", "eq", "active");
@@ -101,6 +104,7 @@ const ExplorePage = () => {
             id={fundraiser.id}
             link
             slug={fundraiser.slug}
+            avatarUrl={fundraiser.users?.avatar_url!}
           />
         
       ))}

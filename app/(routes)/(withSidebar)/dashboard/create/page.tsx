@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { useSupabase } from "@/providers/supabase-provider";
 
@@ -23,6 +23,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import * as z from "zod";
+import { Label } from "@/components/ui/label";
+
+import { v4 as uuidv4 } from "uuid";
 
 const formSchema = z.object({
   Title: z.string().min(2, {
@@ -50,6 +53,8 @@ const formSchema = z.object({
 const CreatePage = () => {
   const [content, setContent] = useState("");
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -66,17 +71,13 @@ const CreatePage = () => {
 
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     try {
+      const slug = value.Title.toLowerCase() // Convert title to lowercase
+        .replace(/[^\w\s]/g, "") // Remove non-word and non-space characters
+        .trim() // Trim leading/trailing spaces
+        .replace(/\s+/g, "-") // Replace spaces with dashes
+        .substring(0, 50); // Limit the length of the slug (adjust as needed)
 
-      const slug =  value.Title
-          .toLowerCase() // Convert title to lowercase
-          .replace(/[^\w\s]/g, '') // Remove non-word and non-space characters
-          .trim() // Trim leading/trailing spaces
-          .replace(/\s+/g, '-') // Replace spaces with dashes
-          .substring(0, 50); // Limit the length of the slug (adjust as needed)
-      
-
-
-      const { data, error } = await supabase.from("fundraisers").insert([
+      await supabase.from("fundraisers").insert([
         {
           title: value.Title,
           description: value.Description,
@@ -85,8 +86,11 @@ const CreatePage = () => {
           slug: slug,
         },
       ]);
-
-      console.log(data);
+      // console.log(fileInputRef.current?.files);
+      await supabase.storage
+        .from("fundraiser_image")
+        .upload(uuidv4() as string, fileInputRef.current?.files![0]!);
+      // console.log(data);
       // console.log(data);
     } catch (error: any) {
       console.log(error.message);
@@ -169,6 +173,10 @@ const CreatePage = () => {
             onChange={setContent}
             className="w-[600px] h-[400px]"
           />
+          <div className="grid w-full max-w-sm items-center gap-1.5">
+            <Label htmlFor="picture">Picture</Label>
+            <Input ref={fileInputRef} id="picture" type="file" />
+          </div>
           <Button disabled={isLoading} type="submit">
             Submit
           </Button>

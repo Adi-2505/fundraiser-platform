@@ -9,6 +9,7 @@ import SupabaseSessionProvider from '@/providers/supabase-session-provider'
 
 import DonateModel from '@/providers/donate-modal-provider'
 import ShareModal from '@/providers/share-modal-provider'
+import LoginModal from '@/providers/login-modal-provider'
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -35,6 +36,7 @@ export default function RootLayout({
             <div>
               <DonateModel />
               <ShareModal />
+              <LoginModal />
               {children}
             </div>
           </SupabaseSessionProvider>

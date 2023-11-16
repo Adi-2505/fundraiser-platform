@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
     await supabase
       .from("fundraisers")
-      .update({ amount: fundraiser.amount + parseInt(amount) })
+      .update({ amount: fundraiser.amount + parseInt(amount), contributors: fundraiser.contributors + 1 })
       .eq("id", fundraiser.id);
 
     if(fundraiser.amount + parseInt(amount) >= fundraiser.target){

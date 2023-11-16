@@ -9,6 +9,38 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      comments: {
+        Row: {
+          content: string | null
+          created_at: string
+          fundraiser_id: string
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          fundraiser_id: string
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          fundraiser_id?: string
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_fundraiser_id_fkey"
+            columns: ["fundraiser_id"]
+            isOneToOne: false
+            referencedRelation: "fundraisers"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       contributors: {
         Row: {
           amount: number
@@ -46,6 +78,7 @@ export interface Database {
           amount: number
           category: string | null
           content: string
+          contributors: number
           created_at: string
           description: string
           id: string
@@ -60,10 +93,11 @@ export interface Database {
           amount?: number
           category?: string | null
           content: string
+          contributors?: number
           created_at?: string
           description: string
           id?: string
-          slug?: string
+          slug: string
           status?: Database["public"]["Enums"]["status"]
           target?: number
           title: string
@@ -74,6 +108,7 @@ export interface Database {
           amount?: number
           category?: string | null
           content?: string
+          contributors?: number
           created_at?: string
           description?: string
           id?: string
@@ -142,3 +177,4 @@ export interface Database {
 
 export type FundraisersRow = Database["public"]["Tables"]["fundraisers"]["Row"]
 export type usersRow = Database["public"]["Tables"]["users"]["Row"]
+export type CommentsRow = Database["public"]["Tables"]["comments"]["Row"]

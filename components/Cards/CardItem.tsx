@@ -1,5 +1,3 @@
-
-
 import React from "react";
 
 import {
@@ -11,7 +9,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-
 import { Progress } from "@/components/ui/progress";
 
 import { type FundraisersRow, type usersRow } from "@/types/database.types";
@@ -19,7 +16,7 @@ import { Button } from "../ui/button";
 
 import ReactHtmlParser from "html-react-parser";
 import Link from "next/link";
-
+import Image from "next/image";
 
 interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
   title: FundraisersRow["title"] | undefined;
@@ -31,6 +28,8 @@ interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
   button?: boolean;
   link?: boolean;
   slug?: string;
+  avatarUrl?: string;
+  fundraiserImageUrl?: string;
 }
 
 const CardItem = ({
@@ -43,10 +42,11 @@ const CardItem = ({
   button,
   link,
   slug,
+  avatarUrl,
+  fundraiserImageUrl
 }: CardItemProps) => {
-
-
-  const FUNDRAISER_URL = process.env.NEXT_PUBLIC_BASE_URL + `/fundraiser/${slug}`;
+  const FUNDRAISER_URL =
+    process.env.NEXT_PUBLIC_BASE_URL + `/fundraiser/${slug}`;
 
   const allowedLength = 200;
 
@@ -68,18 +68,33 @@ const CardItem = ({
       : parsedContent;
 
   return (
-    <div className="hover:cursor-pointer shadow-md hover:shadow-lg">
-      <Card className="w-[360px] h-[500px] flex flex-col justify-between">
+    <div className="hover:cursor-pointer shadow-md hover:shadow-lg rounded-md">
+      <Card className="w-[360px] flex flex-col justify-between">
         <Link href={(link ? FUNDRAISER_URL : "") as string}>
           <div>
-            <CardHeader>
+            <div className="h-[250px] w-full p-3">
+              <Image
+                src="/Images/2020-spider-gwen-art.jpg"
+                alt="img"
+                className="object-fill h-[230px] w-full rounded-md"
+                width={300}
+                height={300}
+              />
+            </div>
+            <CardHeader className="p-4">
               <CardTitle>{formattedTitle}</CardTitle>
-              <CardDescription>{formattedDescription}</CardDescription>
-              <CardDescription>{`By ${username}`}</CardDescription>
+              {/* <CardDescription>{formattedDescription}</CardDescription> */}
+              <div className="flex flex-row gap-3 items-center justify-start">
+                <Image
+                  src={avatarUrl!}
+                  alt="avatar"
+                  width={30}
+                  height={30}
+                  className="rounded-full"
+                />
+                <CardDescription>{`By ${username}`}</CardDescription>
+              </div>
             </CardHeader>
-            <CardContent>
-              <div>{formattedContent}</div>
-            </CardContent>
           </div>
         </Link>
         <div>
