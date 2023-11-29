@@ -51,6 +51,8 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 
   const [bool, setBool] = useState<boolean>(true);
 
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -64,12 +66,13 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 
   useEffect(() => {
     const getFundraiser = async () => {
+      setBool(true);
       const { data, error } = await supabase
         .from("fundraisers")
         .select("*")
         .eq("id", params.Id)
         .single();
-      setBool(data?.user === session?.user?.id);
+      // setBool(data?.user === session?.user?.id);
       if (error) {
         console.log(error);
       } else {
@@ -79,10 +82,14 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
         form.setValue("Content", data.content);
         form.setValue("Target", data.target.toString());
       }
+      console.log('error')
+      setBool(false);
     };
 
     getFundraiser();
-  }, []);
+  },[]);
+
+
 
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
     try {
@@ -102,10 +109,10 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
     }
   };
 
-  if (!bool) {
+  if (bool) {
     return (
       <div>
-        <h1>Unauthorized access</h1>
+        <h1>Loading</h1>
       </div>
     );
   }

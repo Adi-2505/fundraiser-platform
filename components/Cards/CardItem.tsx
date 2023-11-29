@@ -69,7 +69,7 @@ const CardItem = ({
 
   return (
     <div className="hover:cursor-pointer shadow-md hover:shadow-lg rounded-md">
-      <Card className="w-[360px] flex flex-col justify-between">
+      <Card className=" flex flex-col justify-between w-[360px] h-[550px]">
         <Link href={(link ? FUNDRAISER_URL : "") as string}>
           <div>
             <div className="h-[250px] w-full p-3">
@@ -82,7 +82,7 @@ const CardItem = ({
               />
             </div>
             <CardHeader className="p-4">
-              <CardTitle>{formattedTitle}</CardTitle>
+              <CardTitle className="text-lg">{formattedTitle}</CardTitle>
               {/* <CardDescription>{formattedDescription}</CardDescription> */}
               <div className="flex flex-row gap-3 items-center justify-start">
                 <Image
@@ -97,7 +97,7 @@ const CardItem = ({
             </CardHeader>
           </div>
         </Link>
-        <div>
+        <div className="align-bottom">
           <CardHeader>
             <CardDescription>
               <span className="font-bold text-xl">₹ {amountRaised}</span> raised
