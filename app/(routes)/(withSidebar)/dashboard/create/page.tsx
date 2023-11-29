@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 
 import { useSupabase } from "@/providers/supabase-provider";
@@ -244,7 +244,11 @@ const CreatePage = () => {
                   </AlertDescription>
                 </Alert>
                 <FormControl>
-                  <FroalaEditor tag="textarea" config={editorConfig} />
+                  {/* <FroalaEditor tag="textarea" config={editorConfig} /> */}
+                  <textarea
+                    className="form-textarea mt-1 block w-full"
+                    placeholder="Content"
+                    {...field}/>
                 </FormControl>
                 <FormDescription>
                   This is your public content of fundraiser.
