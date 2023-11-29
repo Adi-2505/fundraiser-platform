@@ -21,7 +21,7 @@ import * as z from "zod";
 import { useSupabase } from "@/providers/supabase-provider";
 import { useSupabaseSession } from "@/providers/supabase-session-provider";
 
-const formSchema = z.object({
+const formSchema: z.Schema<any> = z.object({
   Title: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),

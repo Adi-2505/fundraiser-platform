@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 import { useSidebarStore } from "@/hooks/use-sidebar";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   // const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -34,4 +34,4 @@ const layout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default layout;
+export default Layout;
