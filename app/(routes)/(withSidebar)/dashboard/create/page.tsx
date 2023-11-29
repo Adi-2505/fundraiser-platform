@@ -36,9 +36,11 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { editorConfig } from "./libs/editor.config";
 
-const FroalaEditor = dynamic(() => import("react-froala-wysiwyg"), {
-  ssr: false, // This ensures the component is not loaded during server-side rendering
-});
+import FroalaEditorComponent from "react-froala-wysiwyg";
+
+// const FroalaEditor = dynamic(() => import("react-froala-wysiwyg"), {
+//   ssr: false, // This ensures the component is not loaded during server-side rendering
+// });
 
 const formSchema = z.object({
   Title: z.string().min(2, {
@@ -244,11 +246,11 @@ const CreatePage = () => {
                   </AlertDescription>
                 </Alert>
                 <FormControl>
-                  {/* <FroalaEditor tag="textarea" config={editorConfig} /> */}
-                  <textarea
+                  <FroalaEditorComponent tag="textarea" config={editorConfig} />
+                  {/* <textarea
                     className="form-textarea mt-1 block w-full"
                     placeholder="Content"
-                    {...field}/>
+                    {...field}/> */}
                 </FormControl>
                 <FormDescription>
                   This is your public content of fundraiser.
