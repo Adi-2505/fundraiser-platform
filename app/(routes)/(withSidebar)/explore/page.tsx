@@ -97,9 +97,7 @@ const ExplorePage = () => {
           <CardItem
             key={index}
             title={fundraiser.title}
-            description={fundraiser.description}
             username={fundraiser.users?.full_name}
-            content={fundraiser.content}
             amountRaised={fundraiser.amount}
             button
             targetAmount={fundraiser.target}

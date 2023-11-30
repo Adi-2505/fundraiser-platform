@@ -7,7 +7,6 @@ import { type FundraisersRow, type usersRow } from "@/types/database.types";
 
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -16,14 +15,8 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { Button } from "../ui/button";
 
-import ReactHtmlParser from "html-react-parser";
-
-
-
 interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
   title: FundraisersRow["title"] | undefined;
-  description: FundraisersRow["description"] | undefined;
-  content: FundraisersRow["content"] | undefined;
   username?: usersRow["full_name"] | undefined;
   amountRaised: FundraisersRow["amount"] | undefined;
   targetAmount: number;
@@ -36,8 +29,6 @@ interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
 
 const CardItem = ({
   title,
-  description,
-  content,
   username,
   amountRaised,
   targetAmount,
@@ -45,29 +36,17 @@ const CardItem = ({
   link,
   slug,
   avatarUrl,
-  fundraiserImageUrl
+  fundraiserImageUrl,
 }: CardItemProps) => {
   const FUNDRAISER_URL =
     process.env.NEXT_PUBLIC_BASE_URL + `/fundraiser/${slug}`;
 
   const allowedLength = 200;
 
-  const parsedContent = ReactHtmlParser(content ?? "");
-
   const formattedTitle =
     (title?.length ?? 0) > allowedLength
       ? title?.slice(0, allowedLength) + "..."
       : title;
-
-  const formattedDescription =
-    (description?.length ?? 0) > allowedLength
-      ? description?.slice(0, allowedLength) + "..."
-      : description;
-
-  const formattedContent =
-    ((parsedContent as string)?.length ?? 0) > allowedLength
-      ? (parsedContent as string)?.slice(0, allowedLength) + "..."
-      : parsedContent;
 
   return (
     <div className="hover:cursor-pointer shadow-md hover:shadow-lg rounded-md">
