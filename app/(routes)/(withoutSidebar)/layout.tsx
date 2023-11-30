@@ -1,7 +1,7 @@
-import { getSession } from '@/lib/supabase-server'
+import React from 'react' 
 import { redirect } from 'next/navigation'
-import React from 'react'
 
+import { getSession } from '@/lib/supabase-server'
 
 
 const layout = async ({ children }: { children: React.ReactNode }) => {

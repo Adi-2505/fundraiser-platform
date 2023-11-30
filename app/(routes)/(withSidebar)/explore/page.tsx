@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+
 import CardItem from "@/components/Cards/CardItem";
 
 // import { getFundraisers } from "@/lib/supabase-server";
 import { useSupabase } from "@/providers/supabase-provider";
 
 // import { FundraisersRow } from "@/types/database.types";
-import { useSearchParams } from "next/navigation";
 
 
 // Explicitly define the type of the fetched fundraiser data object

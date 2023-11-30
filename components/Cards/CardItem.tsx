@@ -1,5 +1,10 @@
 import React from "react";
 
+import Link from "next/link";
+import Image from "next/image";
+
+import { type FundraisersRow, type usersRow } from "@/types/database.types";
+
 import {
   Card,
   CardContent,
@@ -8,15 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 import { Progress } from "@/components/ui/progress";
-
-import { type FundraisersRow, type usersRow } from "@/types/database.types";
 import { Button } from "../ui/button";
 
 import ReactHtmlParser from "html-react-parser";
-import Link from "next/link";
-import Image from "next/image";
+
+
 
 interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
   title: FundraisersRow["title"] | undefined;

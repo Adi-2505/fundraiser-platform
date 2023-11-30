@@ -3,21 +3,21 @@
 import React from "react";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
-
-
-import { Sprout } from "lucide-react";
 import { getSession } from "@/lib/supabase-server";
-
 
 import SidebarToggleButton from "./SidebarToggleButton";
 
+import { Button } from "@/components/ui/button";
+import { Sprout } from "lucide-react";
+
+
+
+
+
 const Navbar = async () => {
+  
   const session = await getSession();
   const user = session?.user;
-
-
-
  
 
   return (

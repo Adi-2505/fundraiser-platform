@@ -1,17 +1,20 @@
 'use client'
+import React, { useState } from "react";
+
+import { useParams } from "next/navigation";
 
 import Modal from "@/components/Modal";
+
 import { Button } from "@/components/ui/button";
 import { DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useShareModalStore } from "@/hooks/use-share-modal";
+
 import { faLinkedin, faSquareFacebook, faSquareWhatsapp, faSquareXTwitter } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Check, Copy } from "lucide-react";
-import React, { useState } from "react";
 
-import { useParams } from "next/navigation";
+import { useShareModalStore } from "@/hooks/use-share-modal";
 
 const ShareModal = () => {
   

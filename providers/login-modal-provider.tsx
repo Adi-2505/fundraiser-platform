@@ -1,11 +1,13 @@
 'use client'
-
-import Modal from '@/components/Modal'
 import React from 'react'
 
-import { useLoginModalStore } from '@/hooks/use-login-modal'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+
+import Modal from '@/components/Modal'
+
+import { Button } from '@/components/ui/button'
+
+import { useLoginModalStore } from '@/hooks/use-login-modal'
 
 
 const LoginModal = () => {

@@ -1,12 +1,15 @@
 "use client";
+import React, { useEffect, useRef, useState } from "react";
 
 import CommentItem from "@/components/CommentItem";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import { useLoginModalStore } from "@/hooks/use-login-modal";
+
 import { useSupabase } from "@/providers/supabase-provider";
 import { useSupabaseSession } from "@/providers/supabase-session-provider";
-import React, { useEffect, useRef, useState } from "react";
 
 interface CommentInputProps {
   fundraiserId: string;

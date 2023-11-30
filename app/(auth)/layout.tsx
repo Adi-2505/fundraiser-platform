@@ -1,8 +1,6 @@
-import { getSession } from "@/lib/supabase-server"
 import { redirect } from "next/navigation"
 
-
-
+import { getSession } from "@/lib/supabase-server"
 
 
 

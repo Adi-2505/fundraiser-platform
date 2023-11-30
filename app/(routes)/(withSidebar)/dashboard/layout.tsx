@@ -1,6 +1,7 @@
-import { getSession } from "@/lib/supabase-server";
-import { redirect } from "next/navigation";
 import React from "react";
+import { redirect } from "next/navigation";
+
+import { getSession } from "@/lib/supabase-server";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getSession();

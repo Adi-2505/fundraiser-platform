@@ -4,13 +4,14 @@
 import React, { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+
 import { useSupabase } from '@/providers/supabase-provider'
 import { useSupabaseSession } from '@/providers/supabase-session-provider'
 
 
 import { Button } from '@/components/ui/button'
 import { User } from '@supabase/supabase-js'
-import Image from 'next/image'
 
 
 const ProfilePage = () => {

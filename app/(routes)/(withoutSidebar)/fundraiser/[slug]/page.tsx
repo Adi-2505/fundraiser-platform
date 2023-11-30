@@ -2,8 +2,11 @@
 import React, { HTMLProps, useEffect, useState } from "react";
 
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+
+import { FundraisersRow } from "@/types/database.types";
+
 import { useSupabase } from "@/providers/supabase-provider";
-import { CommentsRow, FundraisersRow } from "@/types/database.types";
 
 import { Button } from "@/components/ui/button";
 import { AiOutlineHeart } from "react-icons/ai";
@@ -13,8 +16,8 @@ import ReactHtmlParser from "html-react-parser";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+
 import { cn } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
 
 import { useDonateModalStore } from "@/hooks/use-donate-modal";
 import { useShareModalStore } from "@/hooks/use-share-modal";
