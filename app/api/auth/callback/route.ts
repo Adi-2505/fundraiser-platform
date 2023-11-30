@@ -15,6 +15,6 @@ export async function GET(request: NextRequest) {
   }
 
   // URL to redirect to after sign in process completes
-  // console.log(requestUrl.origin + '/explore')
-  return NextResponse.redirect("https://fundraiser-platform.vercel.app" + '/explore')
+  console.log("log in")
+  return NextResponse.redirect(requestUrl.origin + '/explore')
 }

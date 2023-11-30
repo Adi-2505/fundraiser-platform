@@ -28,10 +28,10 @@ const Auth = () => {
   const onClick = async () => {
     try{
 
-      let { data, error } = await supabase.auth.signInWithOAuth({
+      await supabase.auth.signInWithOAuth({
         provider: 'google',
         options:{
-          redirectTo :"/auth/callback"
+          redirectTo : process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/callback" 
         }
       })
       // console.log(data)
