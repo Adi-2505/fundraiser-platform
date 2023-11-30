@@ -26,9 +26,7 @@ const DashboardPage = async () => {
         >
           <CardItem
             title={fundraiser.title}
-            description={fundraiser.description}
             username={session?.user.user_metadata.full_name}
-            content={fundraiser.content}
             amountRaised={fundraiser.amount}
             targetAmount={fundraiser.target}
             link={false}
