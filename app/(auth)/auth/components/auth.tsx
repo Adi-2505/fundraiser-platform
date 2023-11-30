@@ -31,7 +31,7 @@ const Auth = () => {
       await supabase.auth.signInWithOAuth({
         provider: 'google',
         options:{
-          redirectTo : process.env.NEXT_PUBLIC_BASE_URL + "/api/auth/callback" 
+          redirectTo : 'https://fundraiser-platform.vercel.app' + "/api/auth/callback" 
         }
       })
       // console.log(data)
