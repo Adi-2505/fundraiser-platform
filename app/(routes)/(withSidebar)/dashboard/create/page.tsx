@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import ReactDOM from "react-dom";
 import dynamic from "next/dynamic";
 
 import { useSupabase } from "@/providers/supabase-provider";
@@ -17,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import * as z from "zod";
@@ -28,19 +29,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 
-// import "froala-editor/css/froala_style.min.css";
-import "froala-editor/css/froala_editor.pkgd.min.css";
-import "froala-editor/js/plugins.pkgd.min.js";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-import { editorConfig } from "./libs/editor.config";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
 
-import FroalaEditorComponent from "react-froala-wysiwyg";
-
-// const FroalaEditor = dynamic(() => import("react-froala-wysiwyg"), {
-//   ssr: false, // This ensures the component is not loaded during server-side rendering
-// });
+// @ts-ignore
+import Editor from "ckeditor5-custom-build";
+import { Tsukimi_Rounded } from "next/font/google";
 
 const formSchema = z.object({
   Title: z.string().min(2, {
@@ -65,16 +61,30 @@ const formSchema = z.object({
   ),
 });
 
+const editorConfiguration = {
+  toolbar: [
+    "heading",
+    "|",
+    "bold",
+    "italic",
+    "link",
+    "bulletedList",
+    "numberedList",
+    "|",
+    "outdent",
+    "indent",
+    "|",
+    "imageUpload",
+    "blockQuote",
+    "insertTable",
+    "mediaEmbed",
+    "undo",
+    "redo",
+  ],
+};
+
 const CreatePage = () => {
   const [content, setContent] = useState("");
-
-  // @ts-ignore
-  editorConfig.events = {
-    contentChanged: function () {
-      // @ts-ignore
-      setContent(this.el.innerHTML);
-    },
-  };
 
   const [file, setFile] = useState<File>();
 
@@ -246,11 +256,16 @@ const CreatePage = () => {
                   </AlertDescription>
                 </Alert>
                 <FormControl>
-                  <FroalaEditorComponent tag="textarea" config={editorConfig} />
-                  {/* <textarea
-                    className="form-textarea mt-1 block w-full"
-                    placeholder="Content"
-                    {...field}/> */}
+                  <CKEditor
+                    editor={Editor}
+                    config={editorConfiguration}
+                    data={'ddwq'}
+                    onChange={(event, editor) => {
+                      // @ts-ignore 
+                      const data = editor.getData();
+                      setContent(data);
+                    }}
+                  />
                 </FormControl>
                 <FormDescription>
                   This is your public content of fundraiser.
