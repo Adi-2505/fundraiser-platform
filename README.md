@@ -20,7 +20,7 @@ Welcome to our Fundraiser Website repository! This platform enables users to don
 
 To get this project up and running on your local machine, follow these steps:
 
-1. Clone this repository: `git clone [link to the project]`
+1. Clone this repository: `git clone https://github.com/Adi-2505/fundraiser-platform`
 2. Install dependencies: `npm install`
 3. Set up environment variables for Supabase, Google Auth0, and Stripe.
 4. Run the project: `npm run dev`
