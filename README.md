@@ -6,6 +6,7 @@ Welcome to our Fundraiser Website repository! This platform enables users to don
 
 - **Framework:** Next.js
 - **Backend:** Supabase
+- **Database** PostgreSQL
 - **Authentication:** Google Auth0
 - **Payment Processing:** Stripe
 
