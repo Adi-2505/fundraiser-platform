@@ -26,9 +26,9 @@ const SupabaseSessionProvider = ({
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      if (!session) {
-        router.push("/auth");
-      }
+      // if (!session) {
+      //   router.push("/auth");
+      // }
       setSession(session);
     };
     getSession();

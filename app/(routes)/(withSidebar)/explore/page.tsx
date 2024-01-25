@@ -7,6 +7,7 @@ import CardItem from "@/components/Cards/CardItem";
 
 // import { getFundraisers } from "@/lib/supabase-server";
 import { useSupabase } from "@/providers/supabase-provider";
+import { useRouter } from "next/navigation";
 
 // import { FundraisersRow } from "@/types/database.types";
 
@@ -35,31 +36,32 @@ const ExplorePage = () => {
   // const data = await getFundraisers();
   const [data, setData] = useState<fundraiserTypes[] | null>();
   const { supabase } = useSupabase();
-
-  const query = useSearchParams();
-
+  // const router = useRouter();
+  const params = useSearchParams();
   useEffect(() => {
-    if (query.get("filter")) {
+    if ( params.getAll("categories").length > 0) {
+      // function definition
       const getData = async () => {
-        const { data: fundraisers, error } = await supabase
-          .from("fundraisers")
-          .select(`*,
+        const { data: fundraisers } = await supabase.from("fundraisers")
+          .select(`
+            *,
             users (
               full_name,
               avatar_url
             )
-          
           `)
-          .filter("category", "eq", query.get("filter"));
-             
-
-          setData(fundraisers);
-              
-        // console.log(fundraisers)
+          .filter("status", "eq", "active")
+          .in("category", params.getAll("categories"));
+        console.log(fundraisers);
+        setData(fundraisers);
       };
 
+      // function call
       getData();
+
     } else {
+      ;
+      // function definition
       const getData = async () => {
         const { data: fundraisers } = await supabase.from("fundraisers")
           .select(`
@@ -73,11 +75,13 @@ const ExplorePage = () => {
         console.log(fundraisers);
         setData(fundraisers);
       };
+
+      // function call
       getData();
     }
 
     // getData()
-  }, [query.get("filter")]);
+  }, [params]);
 
   
 

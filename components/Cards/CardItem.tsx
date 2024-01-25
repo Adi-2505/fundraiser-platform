@@ -41,6 +41,8 @@ const CardItem = ({
   const FUNDRAISER_URL =
     process.env.NEXT_PUBLIC_BASE_URL + `/fundraiser/${slug}`;
 
+  
+
   const allowedLength = 200;
 
   const formattedTitle =
@@ -88,7 +90,7 @@ const CardItem = ({
           <CardFooter>
             <Progress
               className="h-2 "
-              value={(amountRaised ?? 0 / targetAmount) * 100}
+              value={(amountRaised! / targetAmount) * 100}
             />
           </CardFooter>
           <CardFooter className="flex flex-row items-center justify-center gap-3">

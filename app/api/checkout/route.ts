@@ -5,7 +5,7 @@ import { getFundraiserById } from "@/lib/supabase-server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { id, amount, name } = await req.json();
+  const { id, amount } = await req.json();
 
   if (!id) {
     return NextResponse.json({ error: "Missing id." }, { status: 400 });
@@ -15,9 +15,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing amount." }, { status: 400 });
   }
 
-  if (!name) {
-    return NextResponse.json({ error: "Missing name." }, { status: 400 });
-  }
+ 
 
   // Retrieve the fundraiser from your database using the ID
   const fundraiser = await getFundraiserById(id as string);
@@ -58,7 +56,6 @@ export async function POST(req: NextRequest) {
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/fundraiser/${fundraiser.id}?success=0`,
       metadata: {
         fundraiserId: fundraiser.id,
-        name,
         amount
       },
       currency: "inr",

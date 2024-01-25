@@ -42,34 +42,25 @@ const Sidebar = () => {
 
   const router = useRouter();
 
-  const [selectedFilters, setSelectedFilters] = React.useState<string[]>([]);
+  const [filters, setFilters] = React.useState<string[]>([]);
 
-  const handleFilter = (filterValue: string) => {
+
+  // function for handling filter
+  const handleFilter = (category: string) => {
     let updatedFilters: string[] = [];
-
-    if (filterValue !== 'clear') {
-      // If the filterValue is not 'clear', toggle its selection in the array
-      if (selectedFilters.includes(filterValue)) {
-        // Remove the filter value if already selected
-        updatedFilters = selectedFilters.filter((value) => value !== filterValue);
-      } else {
-        // Add the filter value if not selected
-        updatedFilters = [...selectedFilters, filterValue];
-      }
+    if (filters.includes(category)) {
+      updatedFilters = filters.filter((item) => item !== category);
     } else {
-      // If the filterValue is 'clear', reset the selectedFilters array
-      updatedFilters = [];
+      updatedFilters = [...filters, category];
     }
-
-    const query = updatedFilters.length > 0 ? { filter: updatedFilters.join(',') } : {};
-    const url = qs.stringifyUrl({
-      url: '/explore',
-      query,
-    });
-
-    router.push(url);
-    setSelectedFilters(updatedFilters);
+  
+    setFilters(updatedFilters);
+  
+    const query = qs.stringify({ categories: updatedFilters });
+  
+    router.push(`/explore${query.length ? `?${query}` : ""}`);
   };
+  
 
   return (
     <div className="w-[270px] bg-white h-[1000px] ">
@@ -103,7 +94,7 @@ const Sidebar = () => {
               {categories.map((category, index) => (
                 <li key={index} className={`py-2 cursor-pointer`}>
                   <div className="flex flex-row items-center gap-2">
-                    <Checkbox onChange={() => handleFilter(category)}/>
+                    <Checkbox onCheckedChange={()=> handleFilter(category)}/>
                     <div>{category}</div>
                   </div>
                 </li>

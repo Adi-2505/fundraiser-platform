@@ -29,7 +29,10 @@ export async function POST(req: Request) {
   // console.log('🔔  Payment received!', event.type);
 
   if (event.type === "checkout.session.completed") {
-    const { fundraiserId, amount, name } = session.metadata!;
+    const { fundraiserId, amount } = session.metadata!;
+    const email = session.customer_details?.email;
+    const name = session.customer_details?.name;
+    const contact = session.customer_details?.phone;
 
     const supabase = createServerSupabaseClient();
 
@@ -57,7 +60,7 @@ export async function POST(req: Request) {
 
     await supabase
       .from("contributors")
-      .insert([{ fundraiser_id: fundraiser.id, name, amount: parseInt(amount) }])
+      .insert([{ fundraiser_id: fundraiser.id, name, email, contact, amount: parseInt(amount) }])
       
   }
   
