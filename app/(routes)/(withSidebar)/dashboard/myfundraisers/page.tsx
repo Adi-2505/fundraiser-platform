@@ -4,7 +4,6 @@ import Link from "next/link";
 import { getFundraisersByUserId, getSession } from "@/lib/supabase-server";
 
 import CardItem from "@/components/Cards/CardItem";
-
 import { Button } from "@/components/ui/button";
 
 const DashboardPage = async () => {

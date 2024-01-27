@@ -156,7 +156,7 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 	return (
 		<div className="flex flex-row gap-5">
 			<div className="w-3/4">
-				<div className="text-center text-6xl text-black">
+				<div className="text-center text-4xl text-black">
 					{fundraiser?.title}
 				</div>
 				<div className="rounded-xl overflow-hidden">
@@ -165,7 +165,7 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 						alt="image"
 						width={300}
 						height={300}
-						style={{ width: "100%" }}
+						style={{ width: "100vh"}}
 					></Image>
 				</div>
 
