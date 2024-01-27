@@ -6,7 +6,7 @@ import { getSession } from '@/lib/supabase-server'
 const ManageFundraiserLayout = async ({children, params}:{children: React.ReactNode, params: {id: string}}) => {
 
   const session = await getSession()
-  console.log(params)
+  // console.log(params)
 
   if (!session) {
     return (

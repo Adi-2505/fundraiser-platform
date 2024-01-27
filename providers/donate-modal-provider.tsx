@@ -57,7 +57,6 @@ const DonateModel = () => {
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			Name: "",
 			Amount: "",
 		},
 	});
@@ -97,28 +96,8 @@ const DonateModel = () => {
 			<Form {...form}>
 				<form
 					onSubmit={form.handleSubmit(handleCheckout)}
-					className="space-y-5"
+					className="flex flex-col gap-4"
 				>
-					<div>
-						<FormField
-							control={form.control}
-							name="Name"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Name</FormLabel>
-									<FormControl>
-										<Input
-											placeholder="Name"
-											{...field}
-											disabled={isLoading || !!session?.user}
-											value={session?.user.user_metadata.full_name || ""}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</div>
 					<div>
 						<FormField
 							control={form.control}
@@ -138,7 +117,7 @@ const DonateModel = () => {
 							)}
 						/>
 					</div>
-					<div className="flex flex-row gap-2">
+					<div className="flex flex-row gap-2 justify-center">
 						<Button
 							onClick={() => form.setValue("Amount", "1000")}
 							disabled={isLoading}
@@ -157,8 +136,26 @@ const DonateModel = () => {
 						>
 							2000
 						</Button>
+						<Button
+							onClick={() => form.setValue("Amount", "3000")}
+							disabled={isLoading}
+						>
+							3000
+						</Button>
+						<Button
+							onClick={() => form.setValue("Amount", "4000")}
+							disabled={isLoading}
+						>
+							4000
+						</Button>
+						<Button
+							onClick={() => form.setValue("Amount", "5000")}
+							disabled={isLoading}
+						>
+							5000
+						</Button>
 					</div>
-					<div>
+					<div className="flex justify-center">
 						<Button
 							disabled={isLoading}
 							type="submit"

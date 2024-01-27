@@ -23,7 +23,7 @@ const Sidebar = () => {
   const dashboardLinks = [
     {
       name: "Manage Fundraisers",
-      link: "/dashboard/analytics",
+      link: "/dashboard/myfundraisers",
       icon: <GanttChartSquare size="1.5rem" />,
     },
     {

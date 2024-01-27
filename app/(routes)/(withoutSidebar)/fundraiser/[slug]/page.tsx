@@ -25,9 +25,17 @@ import { useShareModalStore } from "@/hooks/use-share-modal";
 import CommentSection from "./components/CommentSection";
 import { Progress } from "@/components/ui/progress";
 import axios from "axios";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface CustomArrowProps extends HTMLProps<HTMLDivElement> {
 	bold: number;
+}
+
+interface fundraiserTypes extends FundraisersRow {
+	contributors: {
+		name: string | null;
+		amount: number;
+	}[];
 }
 
 const CustomNextArrow = (props: CustomArrowProps) => {
@@ -66,7 +74,7 @@ const CustomPreviousArrow = (props: CustomArrowProps) => {
 
 const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 	const { supabase } = useSupabase();
-	const [fundraiser, setFundraiser] = useState<FundraisersRow | null>();
+	const [fundraiser, setFundraiser] = useState<fundraiserTypes | null>();
 	const [activeSlide, setActiveSlide] = useState<number>(0);
 
 	const query = useSearchParams();
@@ -78,7 +86,15 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 		const getFundraiser = async () => {
 			const { data: fundraiser } = await supabase
 				.from("fundraisers")
-				.select("*")
+				.select(
+					`
+            *,
+            contributors (
+              name,
+              amount
+            )
+        `
+				)
 				.eq("slug", params.slug)
 				.single();
 			setFundraiser(fundraiser);
@@ -94,26 +110,25 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 		getFundraiser();
 	}, []);
 
+	const handleContribute = () => {
+		openDonateModal();
+	};
 
-  const handleContribute = () => {
-    openDonateModal();
-  }
-
-  const handleCheckout = async () => {
-    try {
-      const response = await axios.post("/api/checkout", {
-        id: fundraiser?.id,
-        amount: fundraiser?.amount,
-        name: fundraiser?.title,
-      });
-      // console.log(response.data);
-      // console.log(response.data.url);
-      window.open(response.data.url);
-    } catch (error: any) {
-      // console.log('error');
-      console.log(error.message);
-    }
-  };
+	// const handleCheckout = async () => {
+	//   try {
+	//     const response = await axios.post("/api/checkout", {
+	//       id: fundraiser?.id,
+	//       amount: fundraiser?.amount,
+	//       name: fundraiser?.title,
+	//     });
+	//     // console.log(response.data);
+	//     // console.log(response.data.url);
+	//     window.open(response.data.url);
+	//   } catch (error: any) {
+	//     // console.log('error');
+	//     console.log(error.message);
+	//   }
+	// };
 
 	const SlideSettings = {
 		dots: false,
@@ -135,6 +150,8 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 			</div>
 		);
 	}
+
+  fundraiser.contributors.sort((a, b) => b.amount - a.amount);
 
 	return (
 		<div className="flex flex-row gap-5">
@@ -195,15 +212,29 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 					{/* contributers scrolable list */}
 					<div className="text-xl font-bold mt-5">Contributers</div>
 					<div className="h-56 overflow-y-auto border-2 border-black p-4 rounded-sm">
-						<ul className="divide-y divide-gray-200">
+						<ul className="">
 							{/* Your list items */}
-							<li className="py-4">Item 1</li>
-							<li className="py-4">Item 2</li>
-							<li className="py-4">Item 3</li>
-							<li className="py-4">Item 2</li>
-							<li className="py-4">Item 3</li>
-							<li className="py-4">Item 2</li>
-							<li className="py-4">Item 3</li>
+							{fundraiser?.contributors?.map((contributor, index) => (
+								<li
+									key={index}
+									className=" flex flex-row justify-between items-center text-sm"
+								>
+									<div className="flex flex-row items-center gap-2">
+										<TooltipProvider>
+											<Tooltip>
+												<TooltipTrigger asChild>
+													{/* <Button variant="outline">Hover</Button> */}
+										        <div>{contributor.name?.length! > 15 ? contributor.name?.slice(0, 15) + '...' : contributor.name}</div>
+												</TooltipTrigger>
+												<TooltipContent>
+													<p>{contributor.name}</p>
+												</TooltipContent>
+											</Tooltip>
+										</TooltipProvider>
+									</div>
+									<div>₹ {contributor.amount}</div>
+								</li>
+							))}
 							{/* Add more list items as needed */}
 						</ul>
 					</div>

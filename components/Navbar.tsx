@@ -44,7 +44,7 @@ const Navbar = async () => {
             </div>
             {user ? (
               <div>
-                <Link href={"/dashboard/analytics"}>
+                <Link href={"/dashboard/myfundraisers"}>
                   <Button variant={"default"} className="h-6 text-sm bg-green-300 text-black hover:bg-green-400">Dashboard</Button>
                 </Link>
               </div>

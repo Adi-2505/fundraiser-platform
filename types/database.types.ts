@@ -85,7 +85,7 @@ export interface Database {
           amount: number
           category: string | null
           content: string
-          contributors: number
+          donors: number
           created_at: string
           description: string
           id: string
@@ -101,7 +101,7 @@ export interface Database {
           amount?: number
           category?: string | null
           content: string
-          contributors?: number
+          donors?: number
           created_at?: string
           description: string
           id?: string
@@ -117,7 +117,7 @@ export interface Database {
           amount?: number
           category?: string | null
           content?: string
-          contributors?: number
+          donors?: number
           created_at?: string
           description?: string
           id?: string

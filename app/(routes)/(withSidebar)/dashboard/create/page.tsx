@@ -259,7 +259,7 @@ const CreatePage = () => {
                   <CKEditor
                     editor={Editor}
                     config={editorConfiguration}
-                    data={'ddwq'}
+                    data={''}
                     onChange={(event, editor) => {
                       // @ts-ignore 
                       const data = editor.getData();
