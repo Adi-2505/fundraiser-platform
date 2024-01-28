@@ -30,12 +30,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { v4 as uuidv4 } from "uuid";
 
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-// @ts-ignore
-import Editor from "ckeditor5-custom-build";
 
 
-
+// import Editor from "./components/Editor";
+import Editor from '@/components/Editor/Editor'
 
 
 const formSchema = z.object({
@@ -84,6 +82,9 @@ const editorConfiguration = {
 };
 
 const CreatePage = () => {
+
+
+
   const [content, setContent] = useState("");
 
   const [file, setFile] = useState<File>();
@@ -168,6 +169,10 @@ const CreatePage = () => {
       // console.log(file)
       setFile(file);
     }
+  };
+
+  const handleContentChange = (data: string) => {
+    setContent(data);
   };
 
   return (
@@ -256,7 +261,7 @@ const CreatePage = () => {
                   </AlertDescription>
                 </Alert>
                 <FormControl>
-                  <CKEditor
+                  {/* <CKEditor
                     editor={Editor}
                     config={editorConfiguration}
                     data={''}
@@ -265,7 +270,8 @@ const CreatePage = () => {
                       const data = editor.getData();
                       setContent(data);
                     }}
-                  />
+                  /> */}
+                  <Editor onChange={handleContentChange} />
                 </FormControl>
                 <FormDescription>
                   This is your public content of fundraiser.

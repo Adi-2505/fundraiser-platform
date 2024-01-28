@@ -30,10 +30,7 @@ import { useSupabaseSession } from "@/providers/supabase-session-provider";
 // Icons
 import { AlertCircle } from "lucide-react";
 
-// CKEditor
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-// @ts-ignore
-import Editor from "ckeditor5-custom-build";
+import Editor from "@/components/Editor/Editor";
 
 
 
@@ -44,20 +41,6 @@ const formSchema: z.Schema<any> = z.object({
 	Description: z.string().min(2, {
 		message: "Description must be at least 2 characters.",
 	}),
-	Content: z.string().min(2, {
-		message: "Content must be at least 2 characters.",
-	}),
-	Target: z.string().refine(
-		(value) => {
-			// Convert the input string to a number
-			const numericValue = parseInt(value, 10);
-			// Check if the numericValue is a valid number and meets the minimum requirement
-			return !isNaN(numericValue) && numericValue >= 1000;
-		},
-		{
-			message: "Target amount must be a number and at least 1000.",
-		}
-	),
 });
 
 const editorConfiguration = {
@@ -97,7 +80,6 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 		defaultValues: {
 			Title: "",
 			Description: "",
-			Content: "",
 		},
 	});
 
@@ -121,15 +103,21 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 				form.setValue("Target", data.target.toString());
         setContent(data.content);
 			}
-			console.log("error");
+			// console.log("error");
 			setBool(false);
 		};
 
 		getFundraiser();
 	}, []);
 
+	const handleContentChange = (content: string) => {
+		setContent(content);
+	}
+
 	const onSubmit = async (value: z.infer<typeof formSchema>) => {
+		console.log(value);
 		try {
+			// console.log(value);
 			const { data, error } = await supabase
 				.from("fundraisers")
 				.update({
@@ -139,8 +127,34 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 				})
 				.eq("id", params.Id);
 
+				if(error) {
+					console.log(error);
+				}
+
+			console.log(data);
+			// console.log(data);
+		} catch (error: any) {
+			console.log(error.message);
+		}
+	};
+
+
+
+	const [stop, setStop] = useState<boolean>(false);
+
+	const handleStop = async () => {
+		try {
+			setStop(true);
+			const { data, error } = await supabase
+				.from("fundraisers")
+				.update({
+					status: "inactive",
+				})
+				.eq("id", params.Id);
+
 			// console.log(data);
 			// console.log(data);
+			setStop(false);
 		} catch (error: any) {
 			console.log(error.message);
 		}
@@ -207,16 +221,7 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 									</AlertDescription>
 								</Alert>
 								<FormControl>
-									<CKEditor
-										editor={Editor}
-										config={editorConfiguration}
-										data={content}
-										onChange={(event, editor) => {
-											// @ts-ignore
-											const data = editor.getData();
-											setContent(data);
-										}}
-									/>
+									<Editor onChange={handleContentChange} content={content}/>
 								</FormControl>
 								<FormDescription>
 									This is your public content of fundraiser.
@@ -240,9 +245,16 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 							</FormItem>
 						)}
 					/>
-					<Button type="submit" disabled={isLoading}>
-						Update
-					</Button>
+					<div className="flex flex-row gap-2">
+						<Button type="submit" disabled={isLoading}>
+							Update
+						</Button>
+						<Button onClick={handleStop} disabled={stop}>
+							Stop Fundraiser
+						</Button>
+
+					</div>
+
 				</form>
 			</Form>
 		</div>

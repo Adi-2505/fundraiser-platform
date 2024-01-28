@@ -60,7 +60,7 @@ const ExplorePage = () => {
       getData();
 
     } else {
-      ;
+      
       // function definition
       const getData = async () => {
         const { data: fundraisers } = await supabase.from("fundraisers")
