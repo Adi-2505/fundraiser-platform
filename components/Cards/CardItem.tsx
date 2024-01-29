@@ -25,6 +25,7 @@ interface CardItemProps extends React.HTMLProps<HTMLDivElement> {
   slug?: string;
   avatarUrl?: string;
   fundraiserImageUrl?: string;
+  contributers: Number;
 }
 
 const CardItem = ({
@@ -37,6 +38,7 @@ const CardItem = ({
   slug,
   avatarUrl,
   fundraiserImageUrl,
+  contributers
 }: CardItemProps) => {
   const FUNDRAISER_URL =
     process.env.NEXT_PUBLIC_BASE_URL + `/fundraiser/${slug}`;
@@ -82,9 +84,12 @@ const CardItem = ({
         </Link>
         <div className="align-bottom">
           <CardHeader>
-            <CardDescription>
-              <span className="font-bold text-xl">₹ {amountRaised}</span> raised
-              out of ₹ {targetAmount}
+            <CardDescription className="flex flex-row justify-between">
+              <div><span className="font-bold text-base">₹ {amountRaised}</span> /  {targetAmount}</div>
+              <div>
+                <span className="font-bold text-base">{contributers.toString()}</span> supporters
+              </div>
+              
             </CardDescription>
           </CardHeader>
           <CardFooter>

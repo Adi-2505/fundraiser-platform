@@ -24,8 +24,13 @@ import { useShareModalStore } from "@/hooks/use-share-modal";
 
 import CommentSection from "./components/CommentSection";
 import { Progress } from "@/components/ui/progress";
-import axios from "axios";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface CustomArrowProps extends HTMLProps<HTMLDivElement> {
 	bold: number;
@@ -151,7 +156,7 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 		);
 	}
 
-  fundraiser.contributors.sort((a, b) => b.amount - a.amount);
+	fundraiser.contributors.sort((a, b) => b.amount - a.amount);
 
 	return (
 		<div className="flex flex-row gap-5">
@@ -165,7 +170,7 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 						alt="image"
 						width={300}
 						height={300}
-						style={{ width: "100vh"}}
+						style={{ width: "100vh" }}
 					></Image>
 				</div>
 
@@ -212,30 +217,32 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 					{/* contributers scrolable list */}
 					<div className="text-xl font-bold mt-5">Contributers</div>
 					<div className="h-56 overflow-y-auto border-2 border-black p-4 rounded-sm">
-						<ul className="">
-							{/* Your list items */}
+						<ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
 							{fundraiser?.contributors?.map((contributor, index) => (
-								<li
-									key={index}
-									className=" flex flex-row justify-between items-center text-sm"
-								>
-									<div className="flex flex-row items-center gap-2">
-										<TooltipProvider>
-											<Tooltip>
-												<TooltipTrigger asChild>
-													{/* <Button variant="outline">Hover</Button> */}
-										        <div>{contributor.name?.length! > 15 ? contributor.name?.slice(0, 15) + '...' : contributor.name}</div>
-												</TooltipTrigger>
-												<TooltipContent>
-													<p>{contributor.name}</p>
-												</TooltipContent>
-											</Tooltip>
-										</TooltipProvider>
+								<li className="pt-3 pb-0 sm:pt-4" key={index}>
+									<div className="flex items-center space-x-4 rtl:space-x-reverse">
+										<div className="flex-1 min-w-0">
+											<TooltipProvider>
+												<Tooltip>
+													<TooltipTrigger asChild>
+														<p className="text-sm font-medium text-gray-900 truncate dark:text-white">
+															{contributor.name?.length! > 15
+																? contributor.name?.slice(0, 15) + "..."
+																: contributor.name}
+														</p>
+													</TooltipTrigger>
+													<TooltipContent>
+														<p>{contributor.name}</p>
+													</TooltipContent>
+												</Tooltip>
+											</TooltipProvider>
+										</div>
+										<div className="inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white">
+											{contributor.amount}
+										</div>
 									</div>
-									<div>₹ {contributor.amount}</div>
 								</li>
 							))}
-							{/* Add more list items as needed */}
 						</ul>
 					</div>
 				</div>
