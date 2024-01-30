@@ -15,8 +15,6 @@ import Search from "./Search";
 
 
 
-
-
 const Navbar = async () => {
 
   const session = await getSession();

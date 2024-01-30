@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 
 import type { Editor } from "@tiptap/react";
 
@@ -30,21 +30,19 @@ import {
 
 import { cn } from "@/lib/utils";
 
-
 interface MenuBarProps {
 	editor: Editor | null;
 }
 
 interface EditorProps {
-  onChange: (content: string) => void;
-  content?: string;
+	onChange: (content: string) => void;
+	content?: string;
 }
 
 const MenuBar = ({ editor }: MenuBarProps) => {
 	if (!editor) {
 		return null;
 	}
-
 
 	return (
 		<>
@@ -84,9 +82,8 @@ const MenuBar = ({ editor }: MenuBarProps) => {
 					onClick={() => editor.chain().focus().undo().run()}
 					className={cn(
 						"h-7 w-7 border-[1px] border-gray-300 rounded-md p-1 cursor-pointer",
-            !editor.can().undo() ? " text-slate-400" : ""
+						!editor.can().undo() ? " text-slate-400" : ""
 					)}
-          
 				/>
 
 				<Redo2Icon
@@ -174,50 +171,51 @@ const MenuBar = ({ editor }: MenuBarProps) => {
 	);
 };
 
-export default ({onChange, content}: EditorProps) => {
-
-  const [editordata, setEditorData] = React.useState("");
+export default ({ onChange, content }: EditorProps) => {
+	const [editordata, setEditorData] = React.useState("");
 
 	const editor = useEditor({
 		extensions: [
 			StarterKit.configure({
-        heading: {
-          levels: [1, 2, 3, 4],
-        }
-      }),
+				heading: {
+					levels: [1, 2, 3, 4],
+				},
+			}),
 			Underline,
 			TextAlign.configure({
 				types: ["heading", "paragraph"],
 			}),
-      BulletList,
-      Heading.configure({
-        levels: [1, 2, 3, 4],
-      })
+			BulletList,
+			Heading.configure({
+				levels: [1, 2, 3, 4],
+			}),
 		],
 		editorProps: {
 			attributes: {
 				spellcheck: "false",
-        class: "border-none outline-none"
+				class: "border-none outline-none",
 			},
 		},
-    onUpdate({editor}){
-      const data = editor?.getHTML() || "";
-      setEditorData(data);
-      onChange(data);
-    }
+		onUpdate({ editor }) {
+			const data = editor?.getHTML() || "";
+			setEditorData(data);
+			onChange(data);
+		},
 	});
 
-  useEffect(() => {
-    if (editor && content) {
-      editor.commands.setContent(content);
-    }
-  }, [editor, content]);
-
+	useEffect(() => {
+		if (editor && content) {
+			editor.commands.setContent(content);
+		}
+	}, [editor, content]);
 
 	return (
 		<div className="border-[1px] border-gray-300 rounded-md p-2">
 			<MenuBar editor={editor} />
-			<EditorContent editor={editor} className="border-[1px] border-slate-300 focus:border-none mt-3 p-2 rounded-md" />
+			<EditorContent
+				editor={editor}
+				className="border-[1px] border-slate-300 focus:border-none mt-3 p-2 rounded-md"
+			/>
 		</div>
 	);
 };

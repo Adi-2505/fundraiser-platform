@@ -7,10 +7,6 @@ import CardItem from "@/components/Cards/CardItem";
 
 // import { getFundraisers } from "@/lib/supabase-server";
 import { useSupabase } from "@/providers/supabase-provider";
-import { useRouter } from "next/navigation";
-
-// import { FundraisersRow } from "@/types/database.types";
-
 
 // Explicitly define the type of the fetched fundraiser data object
 type fundraiserTypes = {
@@ -59,7 +55,27 @@ const ExplorePage = () => {
 
       // function call
       getData();
+    }else if(params.getAll("search").length > 0){
+      // function definition
+      console.log(params.getAll("search"));
+      const getData = async () => {
+        const { data: fundraisers } = await supabase.from("fundraisers")
+          .select(`
+            *,
+            users (
+              full_name,
+              avatar_url
+            )
+          `)
+          .filter("status", "eq", "active")
+          .eq("users.full_name", params.getAll("search"));
+        console.log(fundraisers);
+        setData(fundraisers);
+      };
 
+      // function call
+      getData();
+       
     } else {
       
       // function definition
@@ -98,7 +114,7 @@ const ExplorePage = () => {
     <div className="flex flex-row flex-wrap gap-10">
       {data?.map((fundraiser, index) => (
         // <Link href={`/fundraiser/${fundraiser.id}`} key={index}>
-        
+        fundraiser.users &&
           <CardItem
             key={index}
             title={fundraiser.title}
@@ -111,7 +127,7 @@ const ExplorePage = () => {
             slug={fundraiser.slug}
             avatarUrl={fundraiser.users?.avatar_url!}
             fundraiserImageUrl={fundraiser.image_url!}
-            contributers={fundraiser.donors}
+            contributors={fundraiser.donors}
           />
         
       ))}

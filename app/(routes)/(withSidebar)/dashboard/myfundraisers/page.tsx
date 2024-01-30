@@ -31,7 +31,7 @@ const DashboardPage = async () => {
             link={false}
             fundraiserImageUrl={fundraiser.image_url!}
             avatarUrl={session?.user.user_metadata.avatar_url!}
-            contributers={fundraiser.donors}
+            contributors={fundraiser.donors}
           />
           <Link href={`/dashboard/myfundraisers/${fundraiser.id}`}>
             <div className="absolute w-[360px] inset-0 bg-black opacity-0 hover:opacity-40 transition-opacity duration-300 text-white flex justify-center items-center rounded-md">

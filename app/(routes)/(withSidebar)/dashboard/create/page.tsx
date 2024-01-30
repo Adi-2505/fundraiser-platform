@@ -38,7 +38,7 @@ import Editor from '@/components/Editor/Editor'
 
 const formSchema = z.object({
   Title: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "Title must be at least 2 characters.",
   }),
   Description: z.string().min(2, {
     message: "Description must be at least 2 characters.",
@@ -59,27 +59,6 @@ const formSchema = z.object({
   ),
 });
 
-const editorConfiguration = {
-  toolbar: [
-    "heading",
-    "|",
-    "bold",
-    "italic",
-    "link",
-    "bulletedList",
-    "numberedList",
-    "|",
-    "outdent",
-    "indent",
-    "|",
-    "imageUpload",
-    "blockQuote",
-    "insertTable",
-    "mediaEmbed",
-    "undo",
-    "redo",
-  ],
-};
 
 const CreatePage = () => {
 
@@ -104,6 +83,7 @@ const CreatePage = () => {
   const { supabase } = useSupabase();
 
   const onSubmit = async (value: z.infer<typeof formSchema>) => {
+    console.log(content);
     try {
       const slug = value.Title.toLowerCase() // Convert title to lowercase
         .replace(/[^\w\s]/g, "") // Remove non-word and non-space characters
@@ -111,7 +91,7 @@ const CreatePage = () => {
         .replace(/\s+/g, "-") // Replace spaces with dashes
         .substring(0, 50); // Limit the length of the slug (adjust as needed)
 
-      console.log(file);
+      // console.log(file);
 
       if (file) {
         const fileName = uuidv4();
@@ -130,11 +110,12 @@ const CreatePage = () => {
               fileName,
           },
         ]);
+        console.log("success");
       } else {
         throw new Error("Please upload an image");
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.log(error);
     }
   };
 
