@@ -30,6 +30,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { v4 as uuidv4 } from "uuid";
 
+import { useToast } from "@/components/ui/use-toast"
+
+
 
 
 // import Editor from "./components/Editor";
@@ -67,6 +70,8 @@ const CreatePage = () => {
   const [content, setContent] = useState("");
 
   const [file, setFile] = useState<File>();
+
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -110,12 +115,22 @@ const CreatePage = () => {
               fileName,
           },
         ]);
-        console.log("success");
+        toast({
+          variant: "success",
+          title: "Fundraisere created successfully",
+        })
       } else {
-        throw new Error("Please upload an image");
+        // throw new Error("Please upload an image");
+        toast({
+          title: "Please upload an image",
+        })
       }
     } catch (error: any) {
-      console.log(error);
+      toast({
+        variant: "destructive",
+        title: "Error creating fundraiser",
+        description: 'Please try again later',
+      });
     }
   };
 

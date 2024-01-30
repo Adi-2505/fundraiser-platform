@@ -11,6 +11,8 @@ import DonateModel from '@/providers/donate-modal-provider'
 import ShareModal from '@/providers/share-modal-provider'
 import LoginModal from '@/providers/login-modal-provider'
 
+import { Toaster } from '@/components/ui/toaster'
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -38,6 +40,7 @@ export default function RootLayout({
               <ShareModal />
               <LoginModal />
               {children}
+              <Toaster />
             </div>
           </SupabaseSessionProvider>
         </SupabaseProvider>

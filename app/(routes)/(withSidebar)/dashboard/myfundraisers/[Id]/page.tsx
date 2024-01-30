@@ -5,13 +5,13 @@ import React, { useEffect, useState } from "react";
 // UI components
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -32,6 +32,7 @@ import { AlertCircle } from "lucide-react";
 
 import Editor from "@/components/Editor/Editor";
 
+import { useToast } from "@/components/ui/use-toast"
 
 
 const formSchema: z.Schema<any> = z.object({
@@ -43,37 +44,16 @@ const formSchema: z.Schema<any> = z.object({
 	}),
 });
 
-const editorConfiguration = {
-  toolbar: [
-    "heading",
-    "|",
-    "bold",
-    "italic",
-    "link",
-    "bulletedList",
-    "numberedList",
-    "|",
-    "outdent",
-    "indent",
-    "|",
-    "imageUpload",
-    "blockQuote",
-    "insertTable",
-    "mediaEmbed",
-    "undo",
-    "redo",
-  ],
-};
-
-
 const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 	const { supabase } = useSupabase();
 
 	const session = useSupabaseSession();
 
-  const [content, setContent] = useState("");
+	const [content, setContent] = useState("");
 
 	const [bool, setBool] = useState<boolean>(true);
+
+	const { toast } = useToast();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -101,7 +81,7 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 				form.setValue("Title", data.title);
 				form.setValue("Description", data.description);
 				form.setValue("Target", data.target.toString());
-        setContent(data.content);
+				setContent(data.content);
 			}
 			// console.log("error");
 			setBool(false);
@@ -112,7 +92,7 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 
 	const handleContentChange = (content: string) => {
 		setContent(content);
-	}
+	};
 
 	const onSubmit = async (value: z.infer<typeof formSchema>) => {
 		console.log(value);
@@ -127,18 +107,25 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 				})
 				.eq("id", params.Id);
 
-				if(error) {
-					console.log(error);
-				}
+			if (error) {
+				console.log(error);
+			}
+
+			toast({
+				variant: "success",
+				title: "Fundraisere updated successfully",
+			});
 
 			console.log(data);
 			// console.log(data);
 		} catch (error: any) {
-			console.log(error.message);
+			toast({
+				variant: "destructive",
+				title: "Fundraisere updation failed",
+				description: "Please try again later.",
+			});
 		}
 	};
-
-
 
 	const [stop, setStop] = useState<boolean>(false);
 
@@ -155,8 +142,16 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 			// console.log(data);
 			// console.log(data);
 			setStop(false);
+			toast({
+				variant: "success",
+				title: "Fundraisere deactivatied successfully",
+			});
 		} catch (error: any) {
-			console.log(error.message);
+			toast({
+				variant: "destructive",
+				title: "Fundraisere deactivation failed",
+				description: "Please try again later.",
+			});
 		}
 	};
 
@@ -221,7 +216,7 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 									</AlertDescription>
 								</Alert>
 								<FormControl>
-									<Editor onChange={handleContentChange} content={content}/>
+									<Editor onChange={handleContentChange} content={content} />
 								</FormControl>
 								<FormDescription>
 									This is your public content of fundraiser.
@@ -252,9 +247,7 @@ const FundraiserUpdatePage = ({ params }: { params: { Id: string } }) => {
 						<Button onClick={handleStop} disabled={stop}>
 							Stop Fundraiser
 						</Button>
-
 					</div>
-
 				</form>
 			</Form>
 		</div>
