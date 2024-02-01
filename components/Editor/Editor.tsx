@@ -171,7 +171,7 @@ const MenuBar = ({ editor }: MenuBarProps) => {
 	);
 };
 
-export default ({ onChange, content }: EditorProps) => {
+const EditorComponent = ({ onChange, content }: EditorProps) => {
 	const [editordata, setEditorData] = React.useState("");
 
 	const editor = useEditor({
@@ -219,3 +219,6 @@ export default ({ onChange, content }: EditorProps) => {
 		</div>
 	);
 };
+
+
+export default EditorComponent;
