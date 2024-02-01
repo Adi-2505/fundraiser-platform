@@ -1,7 +1,7 @@
 
 
 import { stripe } from "@/lib/stripe";
-import { getFundraiserById, getFundraiserBySlug } from "@/lib/supabase-server";
+import { getFundraiserBySlug } from "@/lib/supabase-server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
