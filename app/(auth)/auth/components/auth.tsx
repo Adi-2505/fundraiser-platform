@@ -32,6 +32,7 @@ const Auth = () => {
         provider: 'google',
         options:{
           redirectTo: 'https://fundraiser-platform.vercel.app/api/auth/callback'
+          // redirectTo: 'http://localhost:3000/api/auth/callback'
         }
       })
       // console.log(data)
