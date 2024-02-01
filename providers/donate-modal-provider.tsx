@@ -48,10 +48,6 @@ const DonateModel = () => {
 				message: "Amount must be a number and at least 100.",
 			}
 		),
-		Name: z
-			.string()
-			.min(3, { message: "Name should be of minimum of 3 characters" })
-			.max(50, { message: "Name should be of maximum of 50 characters" }),
 	});
 
 	const form = useForm<z.infer<typeof formSchema>>({
