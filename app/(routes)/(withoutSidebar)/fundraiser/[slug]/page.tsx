@@ -31,6 +31,7 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "@/components/ui/use-toast";
 
 interface CustomArrowProps extends HTMLProps<HTMLDivElement> {
 	bold: number;
@@ -111,6 +112,25 @@ const FundraiserPage = ({ params }: { params: { slug: string } }) => {
 			if (query.get("share") == "true") {
 				openShareModal();
 			}
+
+			if(query.get("success") == "true"){
+				toast({
+					title: "Donation Successful",
+					description: "Thank you for your contribution",
+					variant: "success",
+					duration: 5000,
+				})
+			}
+
+			if(query.get("success") == "false"){
+				toast({
+					title: "Donation Failed",
+					description: "Please try again later",
+					variant: "destructive",
+					duration: 5000,
+				})
+			}
+
 		};
 		getFundraiser();
 	}, []);

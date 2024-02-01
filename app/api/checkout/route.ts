@@ -1,13 +1,13 @@
 
 
 import { stripe } from "@/lib/stripe";
-import { getFundraiserById } from "@/lib/supabase-server";
+import { getFundraiserById, getFundraiserBySlug } from "@/lib/supabase-server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { id, amount } = await req.json();
+  const { slug, amount } = await req.json();
 
-  if (!id) {
+  if (!slug) {
     return NextResponse.json({ error: "Missing id." }, { status: 400 });
   }
 
@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
  
 
   // Retrieve the fundraiser from your database using the ID
-  const fundraiser = await getFundraiserById(id as string);
+  const fundraiser = await getFundraiserBySlug(slug);
 
   if (!fundraiser) {
     return NextResponse.json(
@@ -52,8 +52,8 @@ export async function POST(req: NextRequest) {
       },
 
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/fundraiser/${fundraiser.id}?success=1`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/fundraiser/${fundraiser.id}?success=0`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/fundraiser/${fundraiser.slug}?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/fundraiser/${fundraiser.slug}?success=false`,
       metadata: {
         fundraiserId: fundraiser.id,
         amount

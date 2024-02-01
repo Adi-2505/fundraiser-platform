@@ -34,7 +34,7 @@ const DonateModel = () => {
 
 	// console.log(params);
 
-	const { id } = params;
+	const { slug } = params;
 
 	const formSchema = z.object({
 		Amount: z.string().refine(
@@ -68,7 +68,7 @@ const DonateModel = () => {
 	const handleCheckout = async (value: z.infer<typeof formSchema>) => {
 		try {
 			const response = await axios.post("/api/checkout", {
-				id,
+				slug,
 				amount: parseInt(value.Amount),
 			});
 			// console.log(response.data);

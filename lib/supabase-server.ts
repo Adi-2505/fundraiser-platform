@@ -89,3 +89,18 @@ export async function getFundraiserById(id: string) {
   }
 }
 
+export async function getFundraiserBySlug(slug: string) {
+  const supabase = createServerSupabaseClient();
+  try {
+    const { data: fundraiser } = await supabase
+      .from('fundraisers')
+      .select('*')
+      .eq('slug', slug)
+      .single()
+    return fundraiser;
+  } catch (error) {
+    console.error('Error:', error);
+    return null;
+  }
+}
+
